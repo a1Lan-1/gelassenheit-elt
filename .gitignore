@@ -1,0 +1,16 @@
+.env
+.env.*
+!.env.example
+**/__pycache__/
+**/.pytest_cache/
+**/target/
+**/dbt_packages/
+**/logs/
+**/.mb_session
+**/*.pyc
+airflow/logs/
+fixtures/bronze/**
+!fixtures/bronze/.gitkeep
+.DS_Store
+
+fixtures/sql/seed_demo_data.sql
