@@ -1,0 +1,96 @@
+# Gelassenheit ELT — local demo stack
+services:
+  clickhouse:
+    image: clickhouse/clickhouse-server:24.8
+    environment:
+      CLICKHOUSE_USER: default
+      CLICKHOUSE_PASSWORD: gel
+      CLICKHOUSE_DB: gel_helpdesk
+      CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT: "1"
+    ports:
+      - "8123:8123"
+      - "9009:9000"
+    volumes:
+      - ./fixtures/sql/init_clickhouse.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - ch_data:/var/lib/clickhouse
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8123/ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  minio:
+    image: minio/minio:latest
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: gelassenheit
+      MINIO_ROOT_PASSWORD: gelassenheit_secret
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  minio_init:
+    image: minio/mc:latest
+    depends_on:
+      minio:
+        condition: service_healthy
+    entrypoint: >
+      /bin/sh -c "
+      mc alias set local http://minio:9000 gelassenheit gelassenheit_secret &&
+      mc mb -p local/gel-lake || true &&
+      mc anonymous set download local/gel-lake || true
+      "
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: gel
+      POSTGRES_PASSWORD: gel
+      POSTGRES_DB: gel_sources
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./fixtures/sql/init_postgres.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U gel -d gel_sources"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  dbt:
+    image: ghcr.io/dbt-labs/dbt-core:1.8.7
+    working_dir: /opt/dbt
+    volumes:
+      - ./dbt:/opt/dbt
+      - ./fixtures/seeds:/opt/dbt/seeds
+      - dbt_profiles:/root/.dbt
+    environment:
+      DWH_S3_ENDPOINT: http://minio:9000
+      DWH_S3_BUCKET: gel-lake
+      CLICKHOUSE_HOST: clickhouse
+      CLICKHOUSE_USER: default
+      CLICKHOUSE_PASSWORD: gel
+    depends_on:
+      clickhouse:
+        condition: service_healthy
+    entrypoint: ["sleep", "infinity"]
+    profiles:
+      - demo
+
+volumes:
+  ch_data:
+  minio_data:
+  pg_data:
+  dbt_profiles:
