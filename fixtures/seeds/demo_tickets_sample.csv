@@ -1,0 +1,6 @@
+﻿ticket_number,status,group_name,theme,channel
+HD-100001,New,L1 Support,Access,Email
+HD-100002,In Progress,L2 Support,Billing,Chat
+HD-100003,Resolved,L1 Support,ProductA Setup,Partner Portal
+HD-100004,Closed,L3 Support,Integrations,Phone
+HD-100005,Deferred,Dispatch,General,Client Portal
