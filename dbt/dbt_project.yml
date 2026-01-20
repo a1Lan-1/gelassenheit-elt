@@ -1,0 +1,139 @@
+name: gelassenheit
+version: 1.0.0
+config-version: 2
+profile: gelassenheit
+
+model-paths: ["models"]
+macro-paths: ["macros"]
+seed-paths: ["seeds"]
+test-paths: ["tests"]
+target-path: target
+clean-targets:
+  - target
+  - dbt_packages
+
+vars:
+  s3_endpoint: "{{ env_var('DWH_S3_ENDPOINT', 'http://minio:9000') }}"
+  s3_bucket: "{{ env_var('DWH_S3_BUCKET', 'gel-lake') }}"
+  bronze_dt: "{{ run_started_at.strftime('%Y-%m-%d') }}"
+  ch_db_helpdesk: gel_helpdesk
+  ch_db_devices: gel_devices
+  ch_db_bot: gel_bot
+  ch_db_crm: gel_crm
+  ch_db_pbx: gel_pbx
+  ch_db_dialer: gel_dialer
+  ch_db_workforce: gel_workforce
+  work_block_idle_seconds: 300
+  work_block_call_extend_seconds: 120
+  audit_bronze_lookback_days: 2
+  pbx_calls_detail_lookback_days: 1
+  pbx_calls_detail_lookback_hours: 1
+  pbx_marts_lookback_days: 3
+  pbx_fcr_lookback_days: 8
+  employee_daily_totals_lookback_days: 3
+  employee_daily_call_min_sec: 20
+  operational_load_lookback_days: 3
+  task_ci_primary_lookback_days: 3
+  dialer_marts_lookback_days: 3
+  dialer_fcr_lookback_days: 8
+  dialer_calls_detail_lookback_hours: 6
+  telephony_l12_lookback_days: 3
+  pbx_legs_lookback_hours: 6
+  install_report_lookback_days: 1
+  device_mark_events_lookback_days: 2
+  ticket_first_status_lookback_days: 3
+  work_block_lookback_days: 14
+
+models:
+  gelassenheit:
+    +materialized: table
+    ops:
+      +schema: gel_helpdesk
+      +tags: [ops, audit]
+    helpdesk:
+      +schema: gel_helpdesk
+      +tags: [helpdesk]
+      staging:
+        +materialized: table
+        +tags: [staging]
+      intermediate:
+        +materialized: table
+        +tags: [current]
+      marts:
+        +materialized: table
+        +tags: [marts, mart_helpdesk]
+    devices:
+      +schema: gel_devices
+      +tags: [devices]
+      intermediate:
+        +materialized: table
+      marts:
+        +materialized: table
+        +tags: [marts, mart_devices]
+    bot:
+      +schema: gel_bot
+      +tags: [bot]
+      intermediate:
+        +materialized: table
+        +tags: [current]
+      marts:
+        +materialized: table
+        +tags: [marts, mart_bot]
+        +settings:
+          allow_nullable_key: 1
+    crm:
+      +schema: gel_crm
+      +tags: [crm]
+      staging:
+        +materialized: table
+      intermediate:
+        +materialized: table
+        +tags: [current]
+    pbx:
+      +schema: gel_pbx
+      +tags: [pbx]
+      staging:
+        +materialized: table
+      intermediate:
+        +materialized: table
+        +tags: [current]
+      marts:
+        +materialized: table
+        +tags: [marts, mart_pbx]
+        +settings:
+          allow_nullable_key: 1
+    dialer:
+      +schema: gel_dialer
+      +tags: [dialer]
+      staging:
+        +materialized: table
+      intermediate:
+        +materialized: table
+        +tags: [current]
+      marts:
+        +materialized: table
+        +tags: [marts, mart_dialer]
+        +settings:
+          allow_nullable_key: 1
+    workforce:
+      +schema: gel_workforce
+      +tags: [workforce]
+      staging:
+        +materialized: view
+      intermediate:
+        +materialized: table
+        +tags: [current]
+      marts:
+        +materialized: table
+        +tags: [marts, mart_workforce]
+    telephony:
+      # PBX + Dialer unified layer lives next to helpdesk BI joins
+      +schema: gel_helpdesk
+      +tags: [telephony]
+      intermediate:
+        +materialized: table
+      marts:
+        +materialized: table
+        +tags: [telephony, marts]
+        +settings:
+          allow_nullable_key: 1
