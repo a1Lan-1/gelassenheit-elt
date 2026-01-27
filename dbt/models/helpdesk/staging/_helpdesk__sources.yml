@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+  - name: bronze_fsd
+    description: Bronze parquet in Garage gel-lake/bronze/fsd/
+    meta:
+      bucket: gel-lake
+      prefix: bronze/fsd

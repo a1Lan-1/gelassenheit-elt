@@ -1,0 +1,399 @@
+version: 2
+
+models:
+
+  - name: stg_helpdesk__appeals
+    description: FSD appeals from bronze/fsd/appeals
+    config:
+      alias: stg_appeals
+      tags: [fsd, appeals, staging]
+    columns:
+      - name: id
+        tests: [not_null]
+      - name: appeal_id
+        tests: [not_null]
+      - name: companion_id
+        tests: [not_null]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+
+  - name: stg_helpdesk__comments
+    description: FSD comments from bronze/fsd/comments
+    config:
+      alias: stg_comments
+      tags: [fsd, comments, staging]
+    columns:
+      - name: id
+        tests: [not_null]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+
+  - name: stg_helpdesk__config_items
+    description: FSD config_items from bronze/fsd/config_items
+    config:
+      alias: stg_ci
+      tags: [fsd, config_items, staging]
+    columns:
+      - name: id
+        tests: [not_null]
+      - name: sku_id
+        tests: [not_null]
+      - name: item_id
+        tests: [not_null]
+      - name: quantity
+        tests: [not_null]
+      - name: cost
+        tests: [not_null]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+      - name: waybill_in
+        tests: [not_null]
+      - name: weight
+        tests: [not_null]
+
+  - name: stg_helpdesk__entities
+    description: FSD entities from bronze/fsd/entities
+    config:
+      alias: stg_entities
+      tags: [fsd, entities, staging]
+    columns:
+      - name: id
+        tests: [not_null]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+
+  - name: stg_helpdesk__history
+    description: FSD history from bronze/fsd/history
+    config:
+      alias: stg_history
+      tags: [fsd, history, staging]
+    columns:
+      - name: id
+        tests: [not_null]
+      - name: action_type
+        tests: [not_null]
+      - name: object_type
+        tests: [not_null]
+      - name: object_id
+        tests: [not_null]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+
+  - name: stg_helpdesk__persons
+    description: FSD persons from bronze/fsd/persons
+    config:
+      alias: stg_persons
+      tags: [fsd, persons, staging]
+    columns:
+      - name: id
+        tests: [not_null]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+
+  - name: stg_helpdesk__places
+    description: FSD places from bronze/fsd/places
+    config:
+      alias: stg_places
+      tags: [fsd, places, staging]
+    columns:
+      - name: id
+        tests: [not_null]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+      - name: type
+        tests: [not_null]
+      - name: post_delivery_valid
+        tests: [not_null]
+
+  - name: stg_helpdesk__services
+    description: FSD services from bronze/fsd/services
+    config:
+      alias: stg_services
+      tags: [fsd, services, staging]
+    columns:
+      - name: id
+        tests: [not_null]
+      - name: name
+        tests: [not_null]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+
+  - name: stg_helpdesk__sku
+    description: FSD sku from bronze/fsd/sku
+    config:
+      alias: stg_sku
+      tags: [fsd, sku, staging]
+    columns:
+      - name: id
+        tests: [not_null]
+      - name: type
+        tests: [not_null]
+      - name: unit
+        tests: [not_null]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+      - name: weight
+        tests: [not_null]
+      - name: is_digital
+        tests: [not_null]
+      - name: cost
+        tests: [not_null]
+      - name: is_package
+        tests: [not_null]
+
+  - name: stg_helpdesk__statuses
+    description: FSD statuses from bronze/fsd/statuses
+    config:
+      alias: stg_statuses
+      tags: [fsd, statuses, staging]
+    columns:
+      - name: id
+        tests: [not_null]
+      - name: name
+        tests: [not_null]
+      - name: code
+        tests: [not_null]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+      - name: default
+        tests: [not_null]
+
+  - name: stg_helpdesk__task_config_item
+    description: FSD task_config_item from bronze/fsd/task_config_item
+    config:
+      alias: stg_task_ci
+      tags: [fsd, task_config_item, staging]
+    columns:
+      - name: id
+        tests: [not_null]
+      - name: task_id
+        tests: [not_null]
+      - name: config_item_id
+        tests: [not_null]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+
+  - name: stg_helpdesk__task_status
+    description: FSD task_status from bronze/fsd/task_status
+    config:
+      alias: stg_task_status
+      tags: [fsd, task_status, staging]
+    columns:
+      - name: id
+        tests: [not_null]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+
+  - name: stg_helpdesk__tasks
+    description: FSD tasks from bronze/fsd/tasks
+    config:
+      alias: stg_tasks
+      tags: [fsd, tasks, staging]
+    columns:
+      - name: id
+        tests: [not_null]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+      - name: number
+        tests: [not_null]
+      - name: partner_delivery
+        tests: [not_null]
+
+  - name: stg_helpdesk__ticket_cases
+    description: FSD ticket_cases from bronze/fsd/ticket_cases
+    config:
+      alias: stg_cases
+      tags: [fsd, ticket_cases, staging]
+    columns:
+      - name: id
+        tests: [not_null]
+      - name: name
+        tests: [not_null]
+      - name: code
+        tests: [not_null]
+
+  - name: stg_helpdesk__ticket_categories
+    description: FSD ticket_categories from bronze/fsd/ticket_categories
+    config:
+      alias: stg_categories
+      tags: [fsd, ticket_categories, staging]
+    columns:
+      - name: id
+        tests: [not_null]
+      - name: code
+        tests: [not_null]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+
+  - name: stg_helpdesk__ticket_channels
+    description: FSD ticket_channels from bronze/fsd/ticket_channels
+    config:
+      alias: stg_channels
+      tags: [fsd, ticket_channels, staging]
+    columns:
+      - name: id
+        tests: [not_null]
+      - name: name
+        tests: [not_null]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+
+  - name: stg_helpdesk__ticket_config_item
+    description: FSD ticket_config_item from bronze/fsd/ticket_config_item
+    config:
+      alias: stg_ticket_ci
+      tags: [fsd, ticket_config_item, staging]
+    columns:
+      - name: id
+        tests: [not_null]
+      - name: ticket_id
+        tests: [not_null]
+      - name: config_item_id
+        tests: [not_null]
+      - name: operation
+        tests: [not_null]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+
+  - name: stg_helpdesk__ticket_status
+    description: FSD ticket_status from bronze/fsd/ticket_status
+    config:
+      alias: stg_statuses_history
+      tags: [fsd, ticket_status, staging]
+    columns:
+      - name: id
+        tests: [not_null]
+      - name: date_begin
+        tests: [not_null]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+
+  - name: stg_helpdesk__tickets
+    description: FSD tickets from bronze/fsd/tickets
+    config:
+      alias: stg_tickets
+      tags: [fsd, tickets, staging]
+    columns:
+      - name: id
+        tests: [not_null]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+      - name: number
+        tests: [not_null]
+
+  - name: stg_helpdesk__types
+    description: FSD types from bronze/fsd/types
+    config:
+      alias: stg_types
+      tags: [fsd, types, staging]
+    columns:
+      - name: id
+        tests: [not_null]
+      - name: name
+        tests: [not_null]
+      - name: code
+        tests: [not_null]
+      - name: table_name
+        tests: [not_null]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+
+  - name: stg_helpdesk__user_groups
+    description: FSD user_groups from bronze/fsd/user_groups
+    config:
+      alias: stg_user_groups
+      tags: [fsd, user_groups, staging]
+    columns:
+      - name: id
+        tests: [not_null]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+
+  - name: stg_helpdesk__user_groups_mapping
+    description: FSD user_groups_mapping from bronze/fsd/user_groups_mapping
+    config:
+      alias: stg_ug_mapping
+      tags: [fsd, user_groups_mapping, staging]
+    columns:
+      - name: id
+        tests: [not_null]
+      - name: user_id
+        tests: [not_null]
+      - name: user_group_id
+        tests: [not_null]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+
+  - name: stg_helpdesk__user_types
+    description: FSD user_types from bronze/fsd/user_types
+    config:
+      alias: stg_user_types
+      tags: [fsd, user_types, staging]
+    columns:
+      - name: id
+        tests: [not_null]
+      - name: name
+        tests: [not_null]
+
+  - name: stg_helpdesk__users
+    description: FSD users from bronze/fsd/users
+    config:
+      alias: stg_users
+      tags: [fsd, users, staging]
+    columns:
+      - name: id
+        tests: [not_null]
+      - name: user_name
+        tests: [not_null]
+      - name: first_name
+        tests: [not_null]
+      - name: last_name
+        tests: [not_null]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+      - name: blocked
+        tests: [not_null]
