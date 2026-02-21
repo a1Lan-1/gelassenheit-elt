@@ -1,0 +1,197 @@
+﻿version: 2
+
+models:
+  - name: mart_helpdesk__tickets_backlog_snapshot
+    description: >
+      Disabled. JSON snapshot unplugged; physical table renamed to
+      mart_tickets_backlog_snapshot_legacy (do not DROP).
+    config:
+      enabled: false
+
+  - name: mart_helpdesk__tickets_backlog
+    description: Hourly backlog counts by service theme, group, status and channel.
+    columns:
+      - name: snapshot_hour
+        tests: [not_null]
+      - name: service_theme
+        tests: [not_null]
+      - name: user_group_name
+        tests: [not_null]
+      - name: current_status_name
+        tests: [not_null]
+      - name: new_channel
+        tests: [not_null]
+      - name: ticket_count
+        tests: [not_null]
+
+  - name: mart_helpdesk__tasks_backlog
+    description: >
+      Hourly append-only task backlog by status, group, vendor and partner.
+      NEVER --full-refresh (tag:backlog_append_only).
+    columns:
+      - name: snapshot_hour
+        tests: [not_null]
+      - name: status_name
+        tests: [not_null]
+      - name: user_group_name
+        tests: [not_null]
+      - name: vendor
+        tests: [not_null]
+      - name: partner_code
+        tests: [not_null]
+      - name: tasks_count
+        tests: [not_null]
+
+  - name: mart_helpdesk__ticket_actions
+    description: >
+      Ticket/task history actions mart (ReplacingMergeTree by updated_at).
+      Consumers that need one row per id should read FINAL.
+    columns:
+      - name: id
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+
+  - name: mart_helpdesk__tickets_enriched
+    description: >
+      BI view over cur_tickets_enriched (FINAL). Grain: one row per ticket id.
+      Downstream / BI should use mart_tickets_enriched.
+    columns:
+      - name: id
+        tests: [not_null, unique]
+
+  - name: mart_helpdesk__tasks_enriched
+    description: >
+      BI view over cur_tasks_enriched (FINAL). Grain: one row per task id.
+      Downstream / BI should use mart_tasks_enriched.
+    columns:
+      - name: id
+        tests: [not_null, unique]
+      - name: created_at
+        tests: [not_null]
+
+  - name: mart_helpdesk__employee_work_blocks_daily
+    description: >
+      Actual working hours vs schedule (history + dialer/PBX calls).
+      After an outbound call_end, work extends by work_block_call_extend_seconds (120).
+    columns:
+      - name: user_name
+        tests: [not_null]
+      - name: work_date
+        tests: [not_null]
+
+  - name: mart_helpdesk__employee_work_block_events
+    description: >
+      Timeline of work / work interrupted / call (dialer + PBX).
+      Work blocks: history idle 5 min; after any outbound call +2 min.
+    columns:
+      - name: user_name
+        tests: [not_null]
+      - name: status
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['work', 'work interrupted', 'call']
+      - name: event_at
+        tests: [not_null]
+
+  - name: mart_helpdesk__operational_load_daily
+    description: >
+      Daily operational load by tickets (flow events).
+      escalated_in = create on group from history (not current) + group_change in;
+      before 2026-08-11 15:20 MSK 00.Dispatch remap to L1 Support.
+      Status (completed/deferred/reopened): group as-of event time
+      (last create/group_change), not current enriched.
+      Incremental delete+insert by activity_date; lookback var operational_load_lookback_days (3).
+      BI filter on user_group_name selects the support line.
+    columns:
+      - name: activity_date
+        tests: [not_null]
+      - name: load_category
+        tests:
+          - not_null
+          - accepted_values:
+              values:
+                - escalated_in
+                - escalated_out
+                - completed
+                - deferred
+                - reopened
+      - name: user_group_name
+        tests: [not_null]
+      - name: event_count
+        tests: [not_null]
+      - name: ticket_count
+        tests: [not_null]
+
+  - name: mart_helpdesk__operational_load_v
+    description: BI view over mart_operational_load_daily.
+
+  - name: mart_helpdesk__queue_sla_daily
+    description: >
+      Daily queue SLA aggregation (cur_ticket_queue_episodes).
+      duration_* = wall; duration_active_* = wall minus pause (Deferred/Vendor/In Development/Integrations).
+      BI filter on deferral pause toggles wall vs active.
+      completed and escalated_out mean the queue cleared load (both in time KPIs).
+      cohort_mode=entry by entry date (including open); exit by leave date (completed/out).
+      Incremental delete+insert by activity_date; lookback operational_load_lookback_days.
+    columns:
+      - name: activity_date
+        tests: [not_null]
+      - name: cohort_mode
+        tests:
+          - not_null
+          - accepted_values:
+              values: [entry, exit]
+      - name: user_group_name
+        tests: [not_null]
+      - name: exit_reason
+        tests:
+          - not_null
+          - accepted_values:
+              values: [completed, escalated_out, open, reentered]
+      - name: duration_bucket
+        tests: [not_null]
+      - name: episode_count
+        tests: [not_null]
+
+  - name: mart_helpdesk__queue_sla_v
+    description: BI view over mart_queue_sla_daily.
+
+  - name: int_helpdesk__ticket_sla_current
+    description: >
+      Full ticket cycle: First Touch / First Resolve / Full Resolve from created_at.
+      First Touch — first agent action (non-empty author, not integration bot users).
+      First Resolve — first Resolved (auto-Closed excluded).
+      Full Resolve — last Resolved (Closed not required).
+      Incremental delete+insert by ticket_id.
+    columns:
+      - name: ticket_id
+        tests: [not_null, unique]
+      - name: created_at
+        tests: [not_null]
+
+  - name: mart_helpdesk__ticket_sla_daily
+    description: >
+      Daily full-cycle SLA aggregation (cur_ticket_sla).
+      sla_metric=first_touch|first_resolve|full_resolve.
+      cohort_mode=created by creation date (pending = now()-created);
+      achieved by metric achievement date.
+    columns:
+      - name: activity_date
+        tests: [not_null]
+      - name: cohort_mode
+        tests:
+          - not_null
+          - accepted_values:
+              values: [created, achieved]
+      - name: sla_metric
+        tests:
+          - not_null
+          - accepted_values:
+              values: [first_touch, first_resolve, full_resolve]
+      - name: ticket_count
+        tests: [not_null]
+
+  - name: mart_helpdesk__ticket_sla_v
+    description: BI view over mart_ticket_sla_daily.
