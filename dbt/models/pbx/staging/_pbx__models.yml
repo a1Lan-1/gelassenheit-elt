@@ -1,0 +1,12 @@
+version: 2
+
+models:
+
+  - name: stg_pbx__calls
+    description: pbx.calls from bronze/pbx/calls
+    config:
+      alias: stg_calls
+      tags: [pbx, calls, staging]
+    columns:
+      - name: entry_id
+        tests: [not_null]
