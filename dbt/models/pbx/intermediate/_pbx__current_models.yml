@@ -1,0 +1,267 @@
+version: 2
+
+models:
+
+  - name: int_pbx__calls_current
+    description: Stable call current grain (30 columns)
+    config:
+      alias: cur_calls
+      tags: [pbx, calls, current]
+    columns:
+      - name: entry_id
+        tests: [not_null]
+      - name: started_at
+      - name: call_type_code
+      - name: missed_flag
+        tests: [not_null]
+      - name: is_consultation
+        tests: [not_null]
+      - name: is_blind_transfer
+        tests: [not_null]
+      - name: client_phone
+      - name: aht_talk_duration
+      - name: waiting_time
+      - name: employee_assigned_at
+      - name: waiting_on_line_time
+      - name: employee_accepted_at
+      - name: duration_holding
+      - name: duration_without_holding
+
+  - name: int_pbx__calls_current_v
+    config:
+      alias: cur_calls_v
+      tags: [pbx, current_view]
+    columns:
+      - name: entry_id
+        tests: [not_null, unique]
+      - name: started_at
+      - name: employee_assigned_at
+      - name: employee_accepted_at
+
+  - name: int_pbx__calls_detail
+    description: >
+      Step-by-step PBX dialogs (gel_pbx.cur_calls_detail): grain (entry_id, dialog_seq).
+      Types: incoming/outgoing/missed/transfered/consult. Hold is a stage attribute, not a separate row.
+      user_*/group_* — party responsible for the stage (answering operator); for missed — dial target when direct-to-user.
+      queue_group_* — session entry queue (conversion / inbound group-leg).
+      transfer_from_group_* — transfer initiator group.
+      Timings and waiting/gap are computed per dialog.
+    config:
+      alias: cur_calls_detail
+      tags: [pbx, calls, detail]
+    data_tests:
+      - dbt_utils.expression_is_true:
+          arguments:
+            expression: "call_type_code != 'missed' or missed_flag = 1"
+      - dbt_utils.expression_is_true:
+          arguments:
+            expression: "user_name is null or user_id is not null"
+      - dbt_utils.expression_is_true:
+          arguments:
+            expression: "user_name is null or not match(user_name, '^[0-9]{10,}$')"
+      - dbt_utils.expression_is_true:
+          arguments:
+            expression: "waiting_on_line_time is null or waiting_on_line_time >= 0"
+      - dbt_utils.expression_is_true:
+          arguments:
+            expression: "gap_from_prev_sec is null or gap_from_prev_sec >= 0"
+      - dbt_utils.expression_is_true:
+          arguments:
+            expression: "(dialog_seq = 1 and gap_from_prev_sec is null) or (dialog_seq > 1)"
+      - dbt_utils.expression_is_true:
+          arguments:
+            expression: "call_type_code in ('incoming', 'outgoing', 'missed', 'transfered', 'consult', 'other')"
+      - dbt_utils.expression_is_true:
+          arguments:
+            expression: "not is_consult_bridge_leg or is_real_transfer_hop = 0"
+      - dbt_utils.expression_is_true:
+          arguments:
+            expression: "is_real_transfer_hop = 0 or transfer_from_user_id != transfer_to_user_id"
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns: [entry_id, dialog_seq]
+    columns:
+      - name: entry_id
+        tests: [not_null]
+      - name: dialog_seq
+        tests: [not_null]
+      - name: entry_started_at
+      - name: started_at
+      - name: dialog_started_at
+      - name: employee_accepted_at
+      - name: dialog_ended_at
+      - name: user_id
+        description: Answering operator; for missed — dial target (no answer) when there was a user-leg
+      - name: user_name
+      - name: group_id
+        description: Responsible party / missed target group (users.groups); else queue_group_id
+      - name: group_name
+        description: Operator group name (KPI / filter by employees)
+      - name: queue_group_id
+        description: Call entry queue (conversion.group_id / inbound group-leg)
+      - name: queue_group_name
+        description: Session entry queue name (LCR/SLA by line)
+      - name: call_type_code
+      - name: duration
+      - name: talk_duration
+      - name: waiting_on_line_time
+      - name: gap_from_prev_sec
+      - name: hold_duration
+      - name: dial_duration
+      - name: is_blind_transfer
+      - name: is_consultation
+      - name: is_hold_transfer
+      - name: transfer_kind
+      - name: transfer_success
+      - name: transfer_from_user_id
+      - name: transfer_from_user_name
+      - name: transfer_from_group_id
+        description: Transfer initiator group
+      - name: transfer_from_group_name
+        description: Transfer initiator group name (filter cards by initiators)
+      - name: wait_to_accept_sec
+        description: >
+          Stage AWT: hop1 = start→accept (ring); seq>1 = max(dial, start→accept, max(0,prev_end→accept)).
+          On consult, transfer AWT = dial (prev_end overlaps). Gap before bridge is not summed.
+      - name: asa_sec
+        description: >
+          ASA (Average Speed of Answer): from queue entry to answer.
+          hop1 = entry_started_at→accept; transfer = wait_to_accept_sec; no answer = NULL.
+      - name: aht_talk_duration
+        description: >
+          Talk for AHT: on real transfer = talk(hop)+talk(next bridge leg for same user);
+          on bridge = NULL (excluded from average); else stage talk.
+      - name: is_real_transfer_hop
+        description: Real L1→L2 transfer (from≠to); bridge-leg consult = false
+      - name: is_consult_bridge_leg
+        description: Consult-bridge after transfer (from=to); do not count as a second transfer
+      - name: call_end_reason
+      - name: result_label
+      - name: mark_client
+        description: >
+          Client service score (post-call CC survey, top-level mark_client in raw_data when ext_params=1).
+          NULL — survey not completed / key missing.
+      - name: mark_controller
+        description: >
+          Controller/supervisor score (mark_controller in raw_data). NULL — no score.
+
+  - name: int_pbx__call_events
+    description: >
+      Logical session events (entry_id, event_seq): incoming / transfer / missed.
+      Dialer-like grain without consult-bridge hop.
+    config:
+      alias: cur_call_events
+      tags: [pbx, calls, events]
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns: [entry_id, event_seq]
+    columns:
+      - name: entry_id
+        tests: [not_null]
+      - name: event_seq
+        tests: [not_null]
+      - name: event_type
+      - name: wait_sec
+      - name: talk_sec
+
+  - name: int_pbx__call_legs
+    description: Call legs exploded from raw_data.context_calls (pbx.cur_call_legs)
+    config:
+      alias: cur_call_legs
+      tags: [pbx, calls, legs]
+    columns:
+      - name: entry_id
+        tests: [not_null]
+      - name: leg_seq
+        tests: [not_null]
+      - name: call_type
+      - name: call_abonent_id
+      - name: is_answered
+      - name: resolved_user_id
+
+  - name: int_pbx__call_leg_members
+    description: Group ring members from context_calls[].members
+    config:
+      alias: cur_call_leg_members
+      tags: [pbx, calls, legs]
+
+  - name: int_pbx__call_conversions
+    description: Contact Center conversion block (ext_params=1)
+    config:
+      alias: cur_call_conversions
+      tags: [pbx, calls, cc]
+    columns:
+      - name: entry_id
+        tests: [not_null]
+      - name: assign_user_id
+      - name: close_user_id
+      - name: result_label
+
+  - name: int_pbx__call_stats_basic_current
+    description: Classic stats CSV (from/to extension, disconnect_reason)
+    config:
+      alias: cur_call_stats_basic
+      tags: [pbx, call_stats_basic, current]
+
+  - name: int_pbx__call_stats_basic_current_v
+    config:
+      alias: cur_call_stats_basic_v
+      tags: [pbx, current_view]
+
+  - name: int_pbx__deals_current
+    description: CC deals snapshot
+    config:
+      alias: cur_deals
+      tags: [pbx, deals, current]
+    columns:
+      - name: deal_id
+        tests: [not_null]
+
+  - name: int_pbx__deals_current_v
+    config:
+      alias: cur_deals_v
+      tags: [pbx, current_view]
+
+  - name: int_pbx__tasks_current
+    description: CC tasks snapshot
+    config:
+      alias: cur_tasks
+      tags: [pbx, tasks, current]
+    columns:
+      - name: task_id
+        tests: [not_null]
+
+  - name: int_pbx__tasks_current_v
+    config:
+      alias: cur_tasks_v
+      tags: [pbx, current_view]
+
+  - name: int_pbx__dialer_campaigns_current
+    description: Outbound dialer campaigns
+    config:
+      alias: cur_dialer_campaigns
+      tags: [pbx, dialer_campaigns, current]
+    columns:
+      - name: campaign_id
+        tests: [not_null]
+
+  - name: int_pbx__dialer_campaigns_current_v
+    config:
+      alias: cur_dialer_campaigns_v
+      tags: [pbx, current_view]
+
+  - name: int_pbx__dialer_tasks_current
+    description: Outbound dialer campaign tasks
+    config:
+      alias: cur_dialer_tasks
+      tags: [pbx, dialer_tasks, current]
+    columns:
+      - name: task_id
+        tests: [not_null]
+
+  - name: int_pbx__dialer_tasks_current_v
+    config:
+      alias: cur_dialer_tasks_v
+      tags: [pbx, current_view]
+
