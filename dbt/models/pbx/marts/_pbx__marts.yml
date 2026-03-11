@@ -1,0 +1,25 @@
+version: 2
+
+models:
+  - name: mart_pbx__fcr_stats
+    description: Daily FCR rates from cur_calls_detail (pbx.v_fcr_stats)
+  - name: mart_pbx__fcr_by_clients_stats
+    description: Daily FCR by client phone from cur_calls_detail (pbx.v_fcr_by_clients_stats)
+  - name: mart_pbx__transfer_stats
+    description: >
+      Daily transfer volumes; blind/consult shares by transfer_kind from cur_calls_detail
+      (pbx.v_transfer_stats)
+  - name: mart_pbx__main_metrics
+    description: >
+      Hourly KPIs from cur_calls_detail: AHT/AWT on incoming first-leg;
+      SLA offered and LCR on incoming+missed (pbx.main_metrics)
+  - name: mart_pbx__operator_metrics
+    description: Daily metrics by responsible answered operator; excludes missed (pbx.operator_metrics)
+  - name: mart_pbx__transfer_edges
+    description: >
+      Daily transfer who→whom; blind_transfers by is_blind_transfer/transfer_kind,
+      consult_transfers by consult (pbx.transfer_edges)
+  - name: mart_pbx__cc_conversion_stats
+    description: Daily CC conversion results at entry grain (dialog_seq=1) (pbx.cc_conversion_stats)
+  - name: mart_pbx__session_events
+    description: Session-level call events (incoming/transfer/missed) for Summary KPI (pbx.session_events)
