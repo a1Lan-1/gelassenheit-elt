@@ -1,0 +1,23 @@
+version: 2
+
+models:
+
+  - name: stg_dialer__calls
+    description: dialer.calls from bronze/dialer/calls
+    config:
+      alias: stg_calls
+      tags: [dialer, calls, staging]
+    columns:
+      - name: id
+        tests: [not_null]
+
+  - name: stg_dialer__hours
+    description: dialer.hours from bronze/dialer/hours
+    config:
+      alias: stg_hours
+      tags: [dialer, hours, staging]
+    columns:
+      - name: date_h
+        tests: [not_null]
+      - name: user_id
+        tests: [not_null]

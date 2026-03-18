@@ -1,0 +1,41 @@
+version: 2
+
+models:
+
+  - name: int_dialer__calls_current
+    description: dialer.calls current
+    config:
+      alias: cur_calls
+      tags: [dialer, calls, current]
+    columns:
+      - name: id
+        tests: [not_null]
+
+  - name: int_dialer__calls_current_v
+    config:
+      alias: cur_calls_v
+      tags: [dialer, current_view]
+    columns:
+      - name: id
+        tests: [not_null, unique]
+
+  - name: int_dialer__hours_current
+    description: dialer.hours current
+    config:
+      alias: cur_hours
+      tags: [dialer, hours, current]
+    columns:
+      - name: date_h
+        tests: [not_null]
+      - name: user_id
+        tests: [not_null]
+
+  - name: int_dialer__hours_current_v
+    config:
+      alias: cur_hours_v
+      tags: [dialer, current_view]
+    columns:
+      - name: date_h
+        tests: [not_null]
+      - name: user_id
+        tests: [not_null]

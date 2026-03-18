@@ -1,0 +1,17 @@
+version: 2
+
+models:
+  - name: mart_dialer__main_metrics
+    description: Hourly call center KPIs (legacy calls.main_metrics)
+  - name: mart_dialer__operators_daily_weekly_monthly
+    description: Operator/team aggregates by day/week/month (legacy calls.operators_daily_weekly_monthly)
+  - name: mart_dialer__fcr_stats
+    description: Daily FCR rates (legacy calls.v_fcr_stats)
+  - name: mart_dialer__fcr_by_clients_stats
+    description: Daily FCR by client phone (legacy calls.v_fcr_by_clients_stats)
+  - name: mart_dialer__fcr_by_operators_stats
+    description: Daily FCR by operator (legacy calls.v_fcr_by_operators_stats)
+  - name: mart_dialer__transfer_stats
+    description: Daily transfer volumes (legacy calls.v_transfer_stats)
+  - name: mart_dialer__transfer_by_operators_stats
+    description: Daily transfer volumes by operator (legacy calls.v_transfer_by_operators_stats)
