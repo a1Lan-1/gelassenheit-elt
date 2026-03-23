@@ -1,0 +1,88 @@
+version: 2
+
+models:
+
+  - name: int_crm__deals_current
+    description: crm.deals current
+    config:
+      alias: cur_deals
+      tags: [crm, deals, current]
+    columns:
+      - name: id
+        tests: [not_null]
+
+  - name: int_crm__deals_current_v
+    config:
+      alias: cur_deals_v
+      tags: [crm, current_view]
+    columns:
+      - name: id
+        tests: [not_null, unique]
+
+  - name: int_crm__companies_current
+    description: crm.companies current
+    config:
+      alias: cur_companies
+      tags: [crm, companies, current]
+    columns:
+      - name: id
+        tests: [not_null]
+
+  - name: int_crm__companies_current_v
+    config:
+      alias: cur_companies_v
+      tags: [crm, current_view]
+    columns:
+      - name: id
+        tests: [not_null, unique]
+
+  - name: int_crm__users_current
+    description: crm.users current
+    config:
+      alias: cur_users
+      tags: [crm, users, current]
+    columns:
+      - name: id
+        tests: [not_null]
+
+  - name: int_crm__users_current_v
+    config:
+      alias: cur_users_v
+      tags: [crm, current_view]
+    columns:
+      - name: id
+        tests: [not_null, unique]
+
+  - name: int_crm__deal_statuses_current
+    description: crm.deal_statuses current
+    config:
+      alias: cur_statuses
+      tags: [crm, deal_statuses, current]
+    columns:
+      - name: id
+        tests: [not_null]
+
+  - name: int_crm__deal_statuses_current_v
+    config:
+      alias: cur_statuses_v
+      tags: [crm, current_view]
+    columns:
+      - name: id
+        tests: [not_null, unique]
+
+  - name: int_crm__events_current
+    description: crm.events current
+    config:
+      alias: cur_events
+      tags: [crm, events, current]
+    columns:
+      - name: id
+        tests: [not_null]
+
+  - name: int_crm__events_current_v
+    config:
+      alias: cur_events_v
+      tags: [crm, current_view]
+    columns:
+      - name: id
+        tests: [not_null, unique]

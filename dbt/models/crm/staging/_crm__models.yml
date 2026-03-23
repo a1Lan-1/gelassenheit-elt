@@ -1,0 +1,39 @@
+version: 2
+
+models:
+
+  - name: stg_crm__deals
+    description: crm.deals from bronze/crm/deals
+    config:
+      alias: stg_deals
+      tags: [crm, deals, staging]
+    columns:
+      - name: id
+        tests: [not_null]
+
+  - name: stg_crm__companies
+    description: crm.companies from bronze/crm/companies
+    config:
+      alias: stg_companies
+      tags: [crm, companies, staging]
+    columns:
+      - name: id
+        tests: [not_null]
+
+  - name: stg_crm__users
+    description: crm.users from bronze/crm/users
+    config:
+      alias: stg_users
+      tags: [crm, users, staging]
+    columns:
+      - name: id
+        tests: [not_null]
+
+  - name: stg_crm__deal_statuses
+    description: crm.deal_statuses from bronze/crm/deal_statuses
+    config:
+      alias: stg_statuses
+      tags: [crm, deal_statuses, staging]
+    columns:
+      - name: id
+        tests: [not_null]
