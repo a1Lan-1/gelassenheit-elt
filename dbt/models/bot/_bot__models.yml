@@ -1,0 +1,73 @@
+version: 2
+
+models:
+  - name: int_bot__ai_bot_sessions_current
+    description: Current AI bot sessions (ticket grain); PK ticket_id.
+    columns:
+      - name: ticket_id
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+
+  - name: int_bot__ai_answer_dialogs_current
+    description: Current AI answer dialogs; PK id; fsd_item_id → FSD.
+    columns:
+      - name: id
+        tests: [not_null]
+      - name: fsd_item_id
+        tests: [not_null]
+
+  - name: int_bot__ai_usage_daily_current
+    description: Daily LLM usage aggregates (full snapshot ingest).
+    columns:
+      - name: day
+        tests: [not_null]
+
+  - name: int_bot__fsd_items_current
+    description: >
+      Orchestrator mapping item→FSD ticket.
+      id = ai_bot_sessions.ticket_id / ai_answer_dialogs.fsd_item_id;
+      fsd_id = mart_tickets_enriched.id.
+    columns:
+      - name: id
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+
+  - name: mart_bot__bot_daily
+description: Daily bot KPI funnel (sessions, dialogs, usage) — LLM/cost; not a source of income.
+    columns:
+      - name: day
+        tests: [not_null]
+
+  - name: mart_bot__bot_coverage_daily
+    description: >
+      FSD intake coverage by bot. Grain day × theme/status/channel/group
+      from mart_tickets_enriched; join via fsd_items.
+    columns:
+      - name: day
+        tests: [not_null]
+      - name: service_theme
+        tests: [not_null]
+      - name: current_status_name
+        tests: [not_null]
+      - name: new_channel
+        tests: [not_null]
+      - name: user_group_name
+        tests: [not_null]
+
+  - name: mart_bot__bot_theme_daily
+    description: Coverage KPI by service_theme from mart_tickets_enriched (via fsd_items).
+    columns:
+      - name: day
+        tests: [not_null]
+      - name: service_theme
+        tests: [not_null]
+
+  - name: mart_bot__bot_outcome_daily
+    description: Daily bot sessions by outcome.
+    columns:
+      - name: day
+        tests: [not_null]
+      - name: outcome
+        tests: [not_null]
