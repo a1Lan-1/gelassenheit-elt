@@ -1,0 +1,51 @@
+version: 2
+
+models:
+  - name: mart_workforce__employees
+    description: Unified tech support employee directory from ESP and AKC Google Sheets.
+    config:
+      alias: mart_employees
+    columns:
+      - name: organization
+        tests: [not_null]
+      - name: employee_key
+        tests: [not_null]
+      - name: training_start_date
+description: AKC training start date (sheet column "Training start date")
+      - name: training_end_date
+        description: AKC training end date (sheet column "Training end date")
+
+  - name: mart_workforce__employee_daily_totals
+    description: >
+      Daily raw totals per support employee (schedule spine + mart_employees).
+      working_hours = scheduled_hours minus ESP activities
+      'individual assignment' and 'Idle'.
+      Call volumes: FSD ticket phone (*_ticket), Dialer (*_sk), PBX (*_mg).
+      Var employee_daily_include_dialer (default true): false → *_sk = 0.
+      Days with QA reviews but no schedule row are included with working_hours=0
+      so employee-level SUM(qa_*) in KPI dashboards stays complete.
+      Same for test attempts (test_weighted_sum, test_questions_sum, test_attempts_count).
+      Source for KPI dashboards; no rates or KPI weights.
+    config:
+      alias: mart_employee_daily_totals
+    columns:
+      - name: activity_date
+        tests: [not_null]
+      - name: employee_key
+        tests: [not_null]
+      - name: full_name
+        tests: [not_null]
+      - name: outgoing_calls_mg
+        description: >
+          PBX outgoing with aht_talk/talk >= 20s (int_pbx__calls_detail).
+          Includes outbound_fallback rows filled from entry-level talk.
+      - name: incoming_calls_mg
+        description: PBX incoming with aht_talk/talk >= 20s
+      - name: transferred_calls_mg
+        description: PBX real transfer hops (is_real_transfer_hop) with aht_talk/talk >= 20s
+      - name: total_call_duration_mg
+        description: >
+          Sum of aht_talk/talk for counted PBX types only (out/in/real transfer),
+          not consult/other — keeps AHT numerator aligned with denominator.
+      - name: total_waiting_time_mg
+        description: Sum of wait_to_accept_sec for PBX incoming/transfer with talk >= 20s

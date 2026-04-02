@@ -1,0 +1,25 @@
+version: 2
+
+models:
+  - name: stg_gs__esp_techsup_schedule
+    description: GS esp_techsup_schedule staging view (debug)
+  - name: stg_gs__akc1_techsup_schedule
+    description: GS akc1_techsup_schedule staging view (debug)
+  - name: stg_gs__esp_techsup_activities
+    description: GS esp_techsup_activities staging view (debug)
+  - name: stg_gs__employee_audit_tickets_sec
+    description: GS employee_audit_tickets_sec staging view (debug)
+  - name: stg_gs__esp_techsup_employees
+    description: GS esp_techsup_employees staging view (debug)
+  - name: stg_gs__akc2_techsup_schedule
+    description: GS akc2_techsup_schedule staging view (debug)
+  - name: stg_gs__akc_employees
+    description: GS akc_employees staging view (debug)
+  - name: stg_gs__itm_msb_targets
+    description: GS itm_msb_targets staging view (debug)
+  - name: stg_gs__esp_test_results
+    description: GS esp_test_results staging view (debug)
+  - name: stg_gs__calltrafic1_techsup_schedule
+    description: Nextcloud Calltraffic L1 schedule staging view (debug)
+  - name: stg_gs__calltrafic_employees
+    description: Nextcloud Calltraffic employees directory staging view (debug)

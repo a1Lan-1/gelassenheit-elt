@@ -1,0 +1,211 @@
+version: 2
+
+models:
+
+  - name: int_workforce__esp_techsup_schedule_current
+    description: GS esp_techsup_schedule current (full snapshot table)
+    config:
+      alias: esp_techsup_schedule
+      tags: [gs, esp_techsup_schedule, current]
+    columns:
+      - name: employee
+        tests: [not_null]
+      - name: ingested_at
+        tests: [not_null]
+
+  - name: int_workforce__esp_techsup_schedule_current_v
+    description: GS esp_techsup_schedule current BI view (full snapshot)
+    config:
+      alias: esp_techsup_schedule_v
+      tags: [gs, esp_techsup_schedule, current_view]
+    columns:
+      - name: employee
+        tests: [not_null]
+      - name: ingested_at
+        tests: [not_null]
+
+  - name: int_workforce__akc1_techsup_schedule_current
+    description: GS akc1_techsup_schedule current (full snapshot table)
+    config:
+      alias: akc1_techsup_schedule
+      tags: [gs, akc1_techsup_schedule, current]
+    columns:
+      - name: ingested_at
+        tests: [not_null]
+
+  - name: int_workforce__akc1_techsup_schedule_current_v
+    description: GS akc1_techsup_schedule current BI view (full snapshot)
+    config:
+      alias: akc1_techsup_schedule_v
+      tags: [gs, akc1_techsup_schedule, current_view]
+    columns:
+      - name: ingested_at
+        tests: [not_null]
+
+  - name: int_workforce__employee_audit_tickets_sec_current
+    description: GS employee_audit_tickets_sec current (full snapshot table)
+    config:
+      alias: employee_audit_tickets_sec
+      tags: [gs, employee_audit_tickets_sec, current]
+    columns:
+      - name: ingested_at
+        tests: [not_null]
+
+  - name: int_workforce__employee_audit_tickets_sec_current_v
+    description: GS employee_audit_tickets_sec current BI view (full snapshot)
+    config:
+      alias: employee_audit_tickets_sec_v
+      tags: [gs, employee_audit_tickets_sec, current_view]
+    columns:
+      - name: ingested_at
+        tests: [not_null]
+
+  - name: int_workforce__esp_techsup_employees_current
+    description: GS esp_techsup_employees current (full snapshot table)
+    config:
+      alias: esp_techsup_employees
+      tags: [gs, esp_techsup_employees, current]
+    columns:
+      - name: full_name
+        tests: [not_null]
+      - name: ingested_at
+        tests: [not_null]
+
+  - name: int_workforce__esp_techsup_employees_current_v
+    description: GS esp_techsup_employees current BI view (full snapshot)
+    config:
+      alias: esp_techsup_employees_v
+      tags: [gs, esp_techsup_employees, current_view]
+    columns:
+      - name: full_name
+        tests: [not_null, unique]
+      - name: ingested_at
+        tests: [not_null]
+
+  - name: int_workforce__akc2_techsup_schedule_current
+    description: GS akc2_techsup_schedule current (full snapshot table)
+    config:
+      alias: akc2_techsup_schedule
+      tags: [gs, akc2_techsup_schedule, current]
+    columns:
+      - name: ingested_at
+        tests: [not_null]
+
+  - name: int_workforce__akc2_techsup_schedule_current_v
+    description: GS akc2_techsup_schedule current BI view (full snapshot)
+    config:
+      alias: akc2_techsup_schedule_v
+      tags: [gs, akc2_techsup_schedule, current_view]
+    columns:
+      - name: ingested_at
+        tests: [not_null]
+
+  - name: int_workforce__akc_employees_current
+    description: GS akc_employees current (full snapshot table)
+    config:
+      alias: akc_employees
+      tags: [gs, akc_employees, current]
+    columns:
+      - name: ingested_at
+        tests: [not_null]
+
+  - name: int_workforce__akc_employees_current_v
+    description: GS akc_employees current BI view (full snapshot)
+    config:
+      alias: akc_employees_v
+      tags: [gs, akc_employees, current_view]
+    columns:
+      - name: ingested_at
+        tests: [not_null]
+
+  - name: int_workforce__itm_msb_targets_current
+    description: GS itm_msb_targets current (full snapshot table)
+    config:
+      alias: itm_msb_targets
+      tags: [gs, itm_msb_targets, current]
+    columns:
+      - name: target_name
+        tests: [not_null]
+      - name: employee_type
+        tests: [not_null]
+      - name: effective_date
+        tests: [not_null]
+      - name: ingested_at
+        tests: [not_null]
+
+  - name: int_workforce__itm_msb_targets_current_v
+    description: GS itm_msb_targets current BI view (full snapshot)
+    config:
+      alias: itm_msb_targets_v
+      tags: [gs, itm_msb_targets, current_view]
+    columns:
+      - name: target_name
+        tests: [not_null]
+      - name: employee_type
+        tests: [not_null]
+      - name: effective_date
+        tests: [not_null]
+      - name: ingested_at
+        tests: [not_null]
+
+  - name: int_workforce__esp_test_results_current
+    description: GS esp_test_results current (full snapshot table)
+    config:
+      alias: esp_test_results
+      tags: [gs, esp_test_results, current]
+    columns:
+      - name: name
+        tests: [not_null]
+      - name: dt
+        tests: [not_null]
+      - name: ingested_at
+        tests: [not_null]
+
+  - name: int_workforce__esp_test_results_current_v
+    description: GS esp_test_results current BI view (full snapshot)
+    config:
+      alias: esp_test_results_v
+      tags: [gs, esp_test_results, current_view]
+    columns:
+      - name: name
+        tests: [not_null]
+      - name: dt
+        tests: [not_null]
+      - name: ingested_at
+        tests: [not_null]
+
+  - name: int_workforce__calltrafic1_techsup_schedule_current
+    description: Nextcloud Calltraffic L1 schedule current (full snapshot)
+    config:
+      alias: calltrafic1_techsup_schedule
+      tags: [gs, calltrafic1_techsup_schedule, current]
+    columns:
+      - name: ingested_at
+        tests: [not_null]
+
+  - name: int_workforce__calltrafic1_techsup_schedule_current_v
+    description: Nextcloud Calltraffic L1 schedule current BI view
+    config:
+      alias: calltrafic1_techsup_schedule_v
+      tags: [gs, calltrafic1_techsup_schedule, current_view]
+    columns:
+      - name: ingested_at
+        tests: [not_null]
+
+  - name: int_workforce__calltrafic_employees_current
+    description: Nextcloud Calltraffic employees directory current (full snapshot)
+    config:
+      alias: calltrafic_employees
+      tags: [gs, calltrafic_employees, current]
+    columns:
+      - name: ingested_at
+        tests: [not_null]
+
+  - name: int_workforce__calltrafic_employees_current_v
+    description: Nextcloud Calltraffic employees directory current BI view
+    config:
+      alias: calltrafic_employees_v
+      tags: [gs, calltrafic_employees, current_view]
+    columns:
+      - name: ingested_at
+        tests: [not_null]
