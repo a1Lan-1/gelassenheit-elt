@@ -1,0 +1,148 @@
+version: 2
+
+models:
+  - name: int_devices__license_positions
+    description: >
+      One row per license position: cashdesk activations (subscription_payed_upd),
+      anonymous licenses (cashdesk_id=0, excluding unlimited prepaid orders),
+      plus unlimited prepaid pools (prepaid_license_list).
+    columns:
+      - name: license_key
+        tests: [not_null, unique]
+      - name: cashdesk_id
+        tests: [not_null]
+      - name: order_id
+        tests: [not_null]
+      - name: license_source
+        description: subscription_payed_upd or prepaid_unlimited.
+
+  - name: int_devices__order_unassigned_licenses
+    description: >
+      One row per order with paid licenses not yet on cashdesk positions
+      (order_license_qty minus sum of position license_count).
+      license_source=order_unassigned, cashdesk_id=0, no rnm/znid.
+    columns:
+      - name: license_key
+        tests: [not_null, unique]
+      - name: order_id
+        tests: [not_null]
+      - name: license_source
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [order_unassigned]
+
+  - name: int_devices__license_funnel_positions
+    description: Cashdesk/prepaid positions plus order-level unassigned license rows.
+    columns:
+      - name: license_key
+        tests: [not_null, unique]
+
+  - name: int_devices__order_license_totals
+    description: >
+      Paid order license totals matching BI formula:
+      sum(order_content.object_count) + sum(prepaid used_count - total_count).
+    columns:
+      - name: order_id
+        tests: [not_null, unique]
+      - name: order_license_qty
+        description: subscription_object_count + unlimited_extra_qty.
+      - name: order_created_date
+        description: Order creation date (BI period filter on date_created).
+
+  - name: int_devices__prepaid_license_positions
+    description: >
+      Unlimited prepaid license pools from mv_cashdesk.prepaid_license_list (is_unlimit, used_count>0).
+      Grain is prepaid list entry (INN pool), cashdesk_id=0.
+    columns:
+      - name: license_key
+        tests: [not_null, unique]
+      - name: is_unlimited_prepaid
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [true]
+      - name: prepaid_extra_count
+        description: used_count - total_count consumed beyond base slot.
+
+  - name: int_devices__device_mark_daily
+    description: >
+      Daily Local/Online mark minima from anl.aggregated_events
+      (incremental by event_day). Feeds int_devices__device_mark_events.
+    columns:
+      - name: event_day
+        tests: [not_null]
+      - name: cashdesk_id
+        tests: [not_null]
+      - name: type
+        tests: [not_null]
+      - name: min_event_at
+        tests: [not_null]
+
+  - name: int_devices__device_mark_events
+    description: >
+      First mark timestamps per cashdesk from int_devices__device_mark_daily
+      (imcGismtDataLocal / imcGismtDataOnline, has_error=false).
+      ReplacingMergeTree on _dbt_loaded_at; uniqueness via tests/assert_* + FINAL.
+    columns:
+      - name: cashdesk_id
+        tests: [not_null]
+
+  - name: int_devices__install_helpdesk_by_cashdesk
+    description: >
+      Helpdesk install spine (one row per cashdesk) for mart_devices__install_report.
+    columns:
+      - name: cashdesk_id
+        tests: [not_null, unique]
+
+  - name: int_devices__install_report_current
+    description: >
+      Raw install report (Replacing-append).
+      Grain: cashdesk_id + subscription_id — multiple licenses per device allowed.
+    columns:
+      - name: cashdesk_id
+        tests: [not_null]
+      - name: subscription_id
+        tests: [not_null]
+      - name: license_id
+        tests: [not_null]
+
+  - name: int_devices__device_online_installed
+    description: First successful imcGismtDataOnline mark per cashdesk_id from int_devices__device_mark_events.
+    columns:
+      - name: cashdesk_id
+        tests: [not_null, unique]
+
+  - name: int_devices__config_item_device_keys
+    description: Device config_items with inventory_number=rnm and serial_number=znid.
+    columns:
+      - name: device_config_item_id
+        tests: [not_null, unique]
+      - name: rnm
+        tests: [not_null]
+      - name: znid
+        tests: [not_null]
+
+  - name: int_devices__task_device_resolved
+    description: >
+      FSD tasks resolved to cashdesk_id via config_items.data.cashdeskId.
+      is_closed is true only for status_name = Closed (Resolved is still open).
+    columns:
+      - name: task_id
+        tests: [not_null]
+      - name: cashdesk_id
+        tests: [not_null]
+      - name: device_resolve_path
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['cashdeskId']
+
+  - name: int_devices__fsd_install_tasks_by_device
+    description: FSD install tasks aggregated on cashdesk_id (from config_items.data.cashdeskId).
+    columns:
+      - name: cashdesk_id
+        tests: [not_null, unique]

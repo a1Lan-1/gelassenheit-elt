@@ -1,0 +1,56 @@
+version: 2
+
+models:
+  - name: mart_devices__install_report
+    description: >
+      ESM install report for BI: dedup cur_install_report (limit 1 by cashdesk_id, subscription_id).
+      Multiple licenses per cashdesk_id are kept; only versions of the same subscription collapse.
+    columns:
+      - name: cashdesk_id
+        tests: [not_null]
+      - name: subscription_id
+        tests: [not_null]
+      - name: license_id
+        tests: [not_null, unique]
+  - name: mart_devices__kkt_info
+    description: >
+      Cashdesk-level ESM/PMSR telemetry snapshot (componentsReport only).
+      One row per cashdesk; esm_version/pmsr_name/tsp_model null when no successful report.
+      No req_version fallback. Apply NORMAL/Windows/Linux filters in consumers.
+    columns:
+      - name: cashdesk_id
+        tests: [not_null]
+      - name: esm_version
+        description: Reported ESM version from latest successful componentsReport; null if no telemetry.
+      - name: last_report_date
+        description: server_date of the latest successful componentsReport used for attributes.
+  - name: mart_devices__license_funnel
+    description: >
+      ESM license install funnel at license grain (paid → activated → installed).
+      Includes cashdesk/prepaid positions plus order_unassigned rows (paid but not on cashdesks).
+      sum(license_count) where is_paid matches BI order totals for the same filters.
+      BI period filter on paid_date. Tariff filter on tariff_product_code.
+      Online install joins skipped for order_unassigned rows.
+    columns:
+      - name: license_key
+        tests: [not_null, unique]
+      - name: cashdesk_id
+        tests: [not_null]
+      - name: order_id
+        tests: [not_null]
+      - name: license_source
+        description: subscription_payed_upd, prepaid_unlimited, or order_unassigned.
+      - name: is_unlimited_prepaid
+        description: Unlimited prepaid pool or order flagged as unlimited.
+      - name: order_license_qty
+        description: Order-level license qty for BI reconciliation.
+      - name: order_unlimited_extra_qty
+        description: sum(used_count-total_count) from prepaid_license_list on order.
+      - name: install_path
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['via_task', 'self', 'pending', 'none', 'online_open_task']
+      - name: is_anomaly_online_open_task
+        tests: [not_null]

@@ -1,0 +1,99 @@
+version: 2
+
+sources:
+  - name: anl
+    description: Analytics-layer ClickHouse tables (pre-aggregated).
+    database: anl
+    tables:
+      - name: aggregated_events
+        description: >
+          Daily roll-up of stats.events / stats.cashdesk_events.
+          Use instead of raw events when JSON payload is not required.
+        meta:
+          order_by: "(event_day, cashdesk_id, type, has_error)"
+          partition_by: event_day
+        columns:
+          - name: event_day
+          - name: cashdesk_id
+          - name: type
+          - name: has_error
+          - name: min_event_date_in_day
+          - name: max_event_date_in_day
+          - name: events_count_in_day
+
+  - name: stats
+    description: Raw ESP device event stream.
+    database: stats
+    tables:
+      - name: events
+        description: Full event log with JSON payload. Use only when JSON fields are needed.
+        meta:
+          order_by: "(inn, cashdesk_id, client_date, uuid)"
+          partition_by: toYYYYMM(client_date)
+      - name: cashdesk_events
+        description: View over stats.events (String data). Prefer anl.aggregated_events for aggregates.
+
+  - name: mv_cashdesk
+    description: Cashdesk operational replicas (ReplacingMergeTree).
+    database: mv_cashdesk
+    tables:
+      - name: cashdesk
+        meta:
+          order_by: "(id)"
+      - name: cashdesk_billing_info
+        meta:
+          order_by: "(cashdesk_id)"
+      - name: prepaid_license_list
+        meta:
+          order_by: "(id)"
+      - name: esm_update_request
+        meta:
+          order_by: "(esm_uid)"
+
+  - name: mv_billing
+    description: Billing replicas.
+    database: mv_billing
+    tables:
+      - name: orders
+        meta:
+          order_by: "(id)"
+      - name: order_content
+        meta:
+          order_by: "(order_id, id)"
+      - name: subscription_payed
+        meta:
+          order_by: "(id)"
+      - name: subscription_payed_upd
+        meta:
+          order_by: "(id)"
+      - name: subscription_plan
+        meta:
+          order_by: "(id)"
+
+  - name: mv_portal
+    description: Portal company/user replicas.
+    database: mv_portal
+    tables:
+      - name: company
+        meta:
+          order_by: "(inn)"
+      - name: partners
+        meta:
+          order_by: "(partner_code)"
+      - name: user_profile
+        meta:
+          order_by: "(user_id)"
+
+  - name: mv_helpdesk
+    description: Helpdesk install workflow replicas.
+    database: mv_helpdesk
+    tables:
+      - name: helpdesk_requests
+        meta:
+          order_by: "(id)"
+      - name: helpdesk_tasks
+        meta:
+          order_by: "(id)"
+      - name: sd_user
+        meta:
+          order_by: "(sd_user_id)"
