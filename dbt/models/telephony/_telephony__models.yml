@@ -1,0 +1,44 @@
+version: 2
+
+models:
+  - name: int_telephony__calls_l12
+    description: >
+      Unified L1/L2 calls: PBX (group_name in L1 inbound / L2 technical support)
+      + Dialer (owner → FSD ug_mapping → L1/L2 Support).
+      Grain: one dialog-hop (pbx) or one dialer call. No inject into pbx bronze.
+    config:
+      alias: cur_telephony_calls_l12
+      tags: [telephony, calls, l12]
+    columns:
+      - name: source
+        description: pbx | dialer
+      - name: call_key
+description: Unique string key (entry_id[:seq] / sz-{id})
+        tests: [not_null]
+      - name: started_at
+        tests: [not_null]
+      - name: call_type_code
+      - name: is_real_transfer_hop
+      - name: wait_to_accept_sec
+        description: AWT database (pbx wait_to_accept_sec / SZ waiting_on_line_time)
+      - name: aht_talk_duration
+      - name: asa_sec
+        description: Only pbx; in SZ null
+      - name: user_group_name
+        description: Canon FSD — "1st support line" / "2nd support line"
+      - name: line_code
+        description: l1 | l2
+
+  - name: mart_telephony__main_metrics
+    description: >
+      Hourly telephony KPIs (SL/AWT/AHT/ASA/LCR) by user_group_name,
+      same formulas as mart_pbx__main_metrics on cur_telephony_calls_l12.
+    config:
+      alias: mart_telephony_main_metrics
+      tags: [mart_telephony, main_metrics]
+
+  - name: mart_telephony__fcr_stats
+    description: Daily FCR 24/72/168 by user_group_name on unified incoming.
+    config:
+      alias: mart_telephony_fcr_stats
+      tags: [mart_telephony, fcr]
