@@ -1,0 +1,427 @@
+{
+  "generated_at": "2026-09-30T15:21:49.148672+00:00",
+  "days": 14,
+  "dbs": [
+    "gel_helpdesk",
+    "gel_pbx",
+    "gel_dialer",
+    "gel_crm",
+    "gel_workforce"
+  ],
+  "top_models_by_p95": [
+    {
+      "db": "gel_helpdesk",
+      "model_name": "int_devices__device_mark_events",
+      "dag": "(none)",
+      "n": 309,
+      "p50_s": 30.31,
+      "p95_s": 125.31,
+      "max_s": 251.01,
+      "avg_s": 41.8
+    },
+    {
+      "db": "gel_helpdesk",
+      "model_name": "int_helpdesk__config_items_current",
+      "dag": "(none)",
+      "n": 130,
+      "p50_s": 0.84,
+      "p95_s": 94.32,
+      "max_s": 117.37,
+      "avg_s": 7.66
+    },
+    {
+      "db": "gel_helpdesk",
+      "model_name": "int_helpdesk__tickets_current",
+      "dag": "(none)",
+      "n": 135,
+      "p50_s": 0.79,
+      "p95_s": 68.05,
+      "max_s": 89.53,
+      "avg_s": 5.6
+    },
+    {
+      "db": "gel_helpdesk",
+      "model_name": "int_helpdesk__comments_current",
+      "dag": "(none)",
+      "n": 125,
+      "p50_s": 0.85,
+      "p95_s": 54.34,
+      "max_s": 94.13,
+      "avg_s": 5.94
+    },
+    {
+      "db": "gel_helpdesk",
+      "model_name": "int_helpdesk__task_status_current",
+      "dag": "(none)",
+      "n": 124,
+      "p50_s": 0.77,
+      "p95_s": 54.01,
+      "max_s": 70.92,
+      "avg_s": 5.07
+    },
+    {
+      "db": "gel_helpdesk",
+      "model_name": "int_helpdesk__tasks_current",
+      "dag": "(none)",
+      "n": 117,
+      "p50_s": 0.81,
+      "p95_s": 52.88,
+      "max_s": 71.14,
+      "avg_s": 4.96
+    },
+    {
+      "db": "gel_helpdesk",
+      "model_name": "int_helpdesk__places_current",
+      "dag": "(none)",
+      "n": 135,
+      "p50_s": 0.82,
+      "p95_s": 50.74,
+      "max_s": 65.49,
+      "avg_s": 4.35
+    },
+    {
+      "db": "gel_helpdesk",
+      "model_name": "int_devices__install_report_current",
+      "dag": "(none)",
+      "n": 306,
+      "p50_s": 19.24,
+      "p95_s": 48,
+      "max_s": 91.67,
+      "avg_s": 22.14
+    },
+    {
+      "db": "gel_helpdesk",
+      "model_name": "int_helpdesk__appeals_current",
+      "dag": "(none)",
+      "n": 133,
+      "p50_s": 0.84,
+      "p95_s": 47.52,
+      "max_s": 90.15,
+      "avg_s": 4.76
+    },
+    {
+      "db": "gel_helpdesk",
+      "model_name": "int_helpdesk__ticket_status_current",
+      "dag": "(none)",
+      "n": 123,
+      "p50_s": 0.67,
+      "p95_s": 46.57,
+      "max_s": 77.06,
+      "avg_s": 4.97
+    },
+    {
+      "db": "gel_helpdesk",
+      "model_name": "int_helpdesk__task_config_item_current",
+      "dag": "(none)",
+      "n": 118,
+      "p50_s": 0.75,
+      "p95_s": 46.08,
+      "max_s": 55.33,
+      "avg_s": 4.28
+    },
+    {
+      "db": "gel_helpdesk",
+      "model_name": "int_helpdesk__persons_current",
+      "dag": "(none)",
+      "n": 120,
+      "p50_s": 0.82,
+      "p95_s": 44.49,
+      "max_s": 61.32,
+      "avg_s": 4.1
+    },
+    {
+      "db": "gel_helpdesk",
+      "model_name": "int_helpdesk__ticket_lifecycle_events",
+      "dag": "(none)",
+      "n": 567,
+      "p50_s": 16.53,
+      "p95_s": 44.47,
+      "max_s": 96.88,
+      "avg_s": 20.17
+    },
+    {
+      "db": "gel_helpdesk",
+      "model_name": "int_helpdesk__ticket_categories_current",
+      "dag": "(none)",
+      "n": 138,
+      "p50_s": 0.71,
+      "p95_s": 44.3,
+      "max_s": 59.16,
+      "avg_s": 3.73
+    },
+    {
+      "db": "gel_helpdesk",
+      "model_name": "int_helpdesk__user_groups_current",
+      "dag": "(none)",
+      "n": 132,
+      "p50_s": 0.74,
+      "p95_s": 42.08,
+      "max_s": 70.88,
+      "avg_s": 3.91
+    },
+    {
+      "db": "gel_helpdesk",
+      "model_name": "int_helpdesk__entities_current",
+      "dag": "(none)",
+      "n": 127,
+      "p50_s": 0.81,
+      "p95_s": 42.04,
+      "max_s": 76.55,
+      "avg_s": 4.6
+    },
+    {
+      "db": "gel_helpdesk",
+      "model_name": "int_helpdesk__types_current",
+      "dag": "(none)",
+      "n": 129,
+      "p50_s": 0.77,
+      "p95_s": 40.75,
+      "max_s": 58.7,
+      "avg_s": 3.94
+    },
+    {
+      "db": "gel_helpdesk",
+      "model_name": "int_helpdesk__sku_current",
+      "dag": "(none)",
+      "n": 144,
+      "p50_s": 0.83,
+      "p95_s": 38.5,
+      "max_s": 61.84,
+      "avg_s": 3.7
+    },
+    {
+      "db": "gel_helpdesk",
+      "model_name": "int_helpdesk__ticket_config_item_current",
+      "dag": "(none)",
+      "n": 137,
+      "p50_s": 0.71,
+      "p95_s": 38.03,
+      "max_s": 54.04,
+      "avg_s": 3.47
+    },
+    {
+      "db": "gel_helpdesk",
+      "model_name": "int_helpdesk__user_groups_mapping_current",
+      "dag": "(none)",
+      "n": 134,
+      "p50_s": 0.85,
+      "p95_s": 36.95,
+      "max_s": 49.83,
+      "avg_s": 3.58
+    },
+    {
+      "db": "gel_helpdesk",
+      "model_name": "int_helpdesk__ticket_cases_current",
+      "dag": "(none)",
+      "n": 114,
+      "p50_s": 0.81,
+      "p95_s": 36.78,
+      "max_s": 59.35,
+      "avg_s": 4.09
+    },
+    {
+      "db": "gel_helpdesk",
+      "model_name": "int_helpdesk__statuses_current",
+      "dag": "(none)",
+      "n": 133,
+      "p50_s": 0.8,
+      "p95_s": 35.77,
+      "max_s": 51.67,
+      "avg_s": 3.44
+    },
+    {
+      "db": "gel_helpdesk",
+      "model_name": "int_helpdesk__user_types_current",
+      "dag": "(none)",
+      "n": 144,
+      "p50_s": 0.88,
+      "p95_s": 34.21,
+      "max_s": 44.98,
+      "avg_s": 3.18
+    },
+    {
+      "db": "gel_helpdesk",
+      "model_name": "int_helpdesk__services_current",
+      "dag": "(none)",
+      "n": 126,
+      "p50_s": 0.86,
+      "p95_s": 32.79,
+      "max_s": 53.21,
+      "avg_s": 3.58
+    },
+    {
+      "db": "gel_helpdesk",
+      "model_name": "int_helpdesk__ticket_channels_current",
+      "dag": "(none)",
+      "n": 117,
+      "p50_s": 0.7,
+      "p95_s": 31.93,
+      "max_s": 55.1,
+      "avg_s": 3.5
+    },
+    {
+      "db": "gel_helpdesk",
+      "model_name": "int_helpdesk__ticket_first_status",
+      "dag": "(none)",
+      "n": 9,
+      "p50_s": 12.47,
+      "p95_s": 30.8,
+      "max_s": 30.8,
+      "avg_s": 14.78
+    },
+    {
+      "db": "gel_pbx",
+      "model_name": "int_pbx__calls_detail",
+      "dag": "(none)",
+      "n": 621,
+      "p50_s": 15.5,
+      "p95_s": 30.36,
+      "max_s": 102.3,
+      "avg_s": 17.62
+    },
+    {
+      "db": "gel_helpdesk",
+      "model_name": "int_helpdesk__ticket_sla_current",
+      "dag": "(none)",
+      "n": 555,
+      "p50_s": 9.25,
+      "p95_s": 29.78,
+      "max_s": 58.06,
+      "avg_s": 12.54
+    },
+    {
+      "db": "gel_helpdesk",
+      "model_name": "int_helpdesk__ticket_queue_episodes",
+      "dag": "(none)",
+      "n": 564,
+      "p50_s": 8.43,
+      "p95_s": 27.12,
+      "max_s": 50.69,
+      "avg_s": 11.46
+    },
+    {
+      "db": "gel_helpdesk",
+      "model_name": "int_helpdesk__users_current",
+      "dag": "(none)",
+      "n": 155,
+      "p50_s": 0.95,
+      "p95_s": 26.15,
+      "max_s": 50.47,
+      "avg_s": 2.93
+    },
+    {
+      "db": "gel_workforce",
+      "model_name": "mart_workforce__employee_daily_totals",
+      "dag": "(none)",
+      "n": 329,
+      "p50_s": 15.53,
+      "p95_s": 24.59,
+      "max_s": 73.06,
+      "avg_s": 16.86
+    },
+    {
+      "db": "gel_helpdesk",
+      "model_name": "int_helpdesk__config_items_cashdesk",
+      "dag": "(none)",
+      "n": 567,
+      "p50_s": 6.89,
+      "p95_s": 23.59,
+      "max_s": 45.53,
+      "avg_s": 9.24
+    },
+    {
+      "db": "gel_helpdesk",
+      "model_name": "int_helpdesk__tasks_enriched_current",
+      "dag": "(none)",
+      "n": 567,
+      "p50_s": 9.4,
+      "p95_s": 19.09,
+      "max_s": 34.12,
+      "avg_s": 10.43
+    },
+    {
+      "db": "gel_helpdesk",
+      "model_name": "int_devices__task_device_resolved",
+      "dag": "(none)",
+      "n": 3,
+      "p50_s": 17.58,
+      "p95_s": 17.72,
+      "max_s": 17.72,
+      "avg_s": 16.32
+    },
+    {
+      "db": "gel_helpdesk",
+      "model_name": "int_helpdesk__tickets_enriched_current",
+      "dag": "(none)",
+      "n": 566,
+      "p50_s": 10.44,
+      "p95_s": 17.05,
+      "max_s": 38.26,
+      "avg_s": 11.03
+    },
+    {
+      "db": "gel_helpdesk",
+      "model_name": "int_helpdesk__history_action_extract",
+      "dag": "(none)",
+      "n": 576,
+      "p50_s": 5.26,
+      "p95_s": 14.28,
+      "max_s": 109.78,
+      "avg_s": 6.8
+    },
+    {
+      "db": "gel_helpdesk",
+      "model_name": "stg_helpdesk__employee_work_history_events",
+      "dag": "(none)",
+      "n": 575,
+      "p50_s": 4.59,
+      "p95_s": 14.12,
+      "max_s": 29.25,
+      "avg_s": 5.46
+    },
+    {
+      "db": "gel_helpdesk",
+      "model_name": "mart_devices__kkt_info",
+      "dag": "(none)",
+      "n": 12,
+      "p50_s": 7.37,
+      "p95_s": 13.42,
+      "max_s": 13.42,
+      "avg_s": 6.58
+    },
+    {
+      "db": "gel_helpdesk",
+      "model_name": "int_helpdesk__task_ci_primary",
+      "dag": "(none)",
+      "n": 567,
+      "p50_s": 8.42,
+      "p95_s": 13,
+      "max_s": 17.47,
+      "avg_s": 8.89
+    },
+    {
+      "db": "gel_helpdesk",
+      "model_name": "mart_devices__install_report",
+      "dag": "(none)",
+      "n": 306,
+      "p50_s": 5.71,
+      "p95_s": 11.21,
+      "max_s": 27.9,
+      "avg_s": 6.24
+    }
+  ],
+  "by_dag_model_times": [
+    {
+      "dag": "(none)",
+      "n_runs": 60662,
+      "n_models": 176,
+      "model_p50_s": 0.77,
+      "model_p95_s": 12.53,
+      "model_max_s": 251.01
+    }
+  ],
+  "approx_wall_clock_by_dag": [],
+  "note": "wall_sum_* = sum(execution_time_s) of models in DAG hour (sequential dbt_host estimate; not Airflow dagrun duration)"
+}
+
+
