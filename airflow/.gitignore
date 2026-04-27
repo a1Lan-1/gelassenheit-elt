@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+*$py.class
+.env
+
+# Local geo seeds — live on S3 (ref/geo/), not in git
+dwh/data/
+
+# local one-off deploy/probe
+scripts/
+_push_*
+_cleanup_*

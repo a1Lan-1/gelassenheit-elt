@@ -1,0 +1,12 @@
+apache-airflow-providers-postgres
+apache-airflow-providers-ssh
+boto3
+numpy
+pandas
+paramiko
+pyarrow
+pyyaml
+requests
+gspread>=6.0.0
+google-auth>=2.0.0
+openpyxl>=3.1.0
