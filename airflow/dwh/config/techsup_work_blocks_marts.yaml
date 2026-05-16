@@ -1,0 +1,4 @@
+# Employee work blocks marts (history + calls by name vs schedule).
+# Runs after GS marts (:56) and upstream cur_* views.
+schedule: "58 * * * *"
+dbt_select: "tag:work_blocks"

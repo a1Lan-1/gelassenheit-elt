@@ -1,0 +1,11 @@
+# FSD marts: gelassenheit-dbt repo only (models/fsd/marts/).
+schedule: "54 * * * *"
+models:
+  - mart_helpdesk__tickets_backlog
+  - mart_helpdesk__tasks_backlog
+  - mart_helpdesk__ticket_actions
+  - mart_helpdesk__tickets_enriched
+  - mart_helpdesk__tasks_enriched
+  - int_helpdesk__ticket_lifecycle_events
+  - mart_helpdesk__operational_load_daily
+  - mart_helpdesk__operational_load_v

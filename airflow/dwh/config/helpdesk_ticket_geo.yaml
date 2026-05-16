@@ -1,0 +1,15 @@
+﻿# Incoming tickets geocoded for BI maps (city-center precision).
+# Built by Airflow pandas (dwh.common.ticket_geo), not dbt.
+# Address source (temporary): gel_helpdesk.cur_entities.legal_address.
+# City centers: s3://gel-lake/ref/geo/city_centers.parquet
+#   GeoNames cities5000: RU + Crimea/Sevastopol (UA admin1 11, 20).
+#   Rebuild: python -m dwh.scripts.build_city_centers
+#   Upload:  python -m dwh.scripts.upload_city_centers_to_s3 path/to/city_centers.parquet
+# Incremental watermark: Airflow Variable dwh_watermark_fsd_ticket_geo
+#   (clear / set empty in†’ next run backfill lookback_days).
+# Target: ReplacingMergeTree by ticket_id.
+schedule: "0 * * * *"
+lookback_days: 90
+overlap_minutes: 30
+force_ref_refresh: false
+force_full_refresh: false
