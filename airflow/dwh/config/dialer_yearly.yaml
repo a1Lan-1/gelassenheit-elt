@@ -1,0 +1,2 @@
+# Yearly full-refresh of Dialer current, views, detail and marts (1 Jan 04:00 MSK).
+schedule: "0 4 1 1 *"

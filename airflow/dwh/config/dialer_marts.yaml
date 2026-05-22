@@ -1,0 +1,2 @@
+# Dialer marts: 1×/hour (after incremental detail; previously */20 at full-table).
+schedule: "20 * * * *"

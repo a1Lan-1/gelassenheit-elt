@@ -1,0 +1,3 @@
+# PBX marts DAG: cur_calls_detail + tag:mart_pbx
+# After ingest_pbx_* (cron :07) and/or by asset cur_calls_v & cur_users_v & cur_groups_v
+schedule: "20 * * * *"
