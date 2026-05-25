@@ -1,0 +1,4 @@
+# ESP KKT info mart in gel_helpdesk (gelassenheit-dbt tag:kkt_info).
+schedule: "0 5 * * *"
+models:
+  - mart_devices__kkt_info

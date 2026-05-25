@@ -1,0 +1,4 @@
+# ESP license funnel marts in gel_helpdesk (gelassenheit-dbt tag:license_funnel).
+schedule: "0 4 * * *"
+models:
+  - mart_devices__license_funnel

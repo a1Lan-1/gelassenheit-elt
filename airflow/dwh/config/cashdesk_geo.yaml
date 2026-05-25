@@ -1,0 +1,11 @@
+# Cashdesk address → city-center lat/lon dictionary.
+# Source: mv_cashdesk.cashdesk FINAL (address).
+# City centers: s3://gel-lake/ref/geo/city_centers.parquet
+#   GeoNames cities5000 RU + Crimea/Sevastopol (UA admin1 11, 20).
+#   Rebuild: python -m dwh.scripts.build_city_centers
+# Watermark: Airflow Variable dwh_watermark_cashdesk_geo (clear → full rebuild).
+# Target: gel_helpdesk.mart_cashdesk_geo / mart_cashdesk_geo_v
+schedule: "30 6 * * *"
+overlap_minutes: 30
+force_ref_refresh: false
+force_full_refresh: false

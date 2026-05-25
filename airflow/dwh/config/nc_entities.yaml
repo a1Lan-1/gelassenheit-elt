@@ -1,0 +1,57 @@
+# Nextcloud WebDAV xlsx → bronze/gs → dbt gel_workforce (full snapshot).
+# Schedule: per-minute sheet slots → flatten (date, employee, plan hours).
+conn_id: nextcloud_calltrafic
+host: cloud.calltraffic.ru
+# On this host WebDAV root is the user UUID, not the login name.
+# Login/password live in the Connection; UUID may be duplicated in extra.dav_user.
+dav_path: "/remote.php/dav/files/0D810015-CF53-4FBB-80EB-779B9E685B80/Workforce Training/Employee timesheet.xlsx"
+employees_sheet: "Employee list"
+
+entities:
+  - entity: calltrafic1_techsup_schedule
+    kind: schedule
+    columns: [date, employee, hours]
+    # Col27 = plan; Col2 = full name; Col30 = date (same layout as GS AKC QUERY)
+    plan_col_1based: 27
+    name_col_1based: 2
+    date_col_1based: 30
+    skip_name_labels:
+      - "actual hours"
+      - "required hours (load plan)"
+
+  - entity: calltrafic_employees
+    kind: employees
+    sheet: "Employee list"
+    has_header: true
+    # Sheet headers → bronze columns (anonymized xlsx)
+    header_map:
+      "Supervisor": supervisor
+      "Status": employment_status
+      "Group": group_name
+      "Training start date": training_start_date
+      "Training end date": training_end_date
+      "Line start date": line_start_date
+      "Full name": full_name
+      "Email": email
+      "Telegram login": telegram_login
+      "Mattermost login": mm_login
+      "Phone": phone
+      "Birthday": birthday
+      "Dismissal date": dismissal_date
+      "Dismissal reason": dismissal_reason
+    required_column: full_name
+    columns:
+      - supervisor
+      - employment_status
+      - group_name
+      - training_start_date
+      - training_end_date
+      - line_start_date
+      - full_name
+      - email
+      - telegram_login
+      - mm_login
+      - phone
+      - birthday
+      - dismissal_date
+      - dismissal_reason

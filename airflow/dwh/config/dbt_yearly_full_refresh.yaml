@@ -1,0 +1,10 @@
+# Yearly full-refresh of dbt persistent models (1 Jan 02:00 MSK).
+schedule: "0 2 1 1 *"
+# Staging views read a single bronze run_id — skip on yearly rebuild.
+# cur_history is huge — only hourly ingest (no FR, no yearly, no nightly reconcile).
+exclude:
+  - tag:staging
+  - tag:debug
+  - int_helpdesk__history_current
+  - int_helpdesk__history_current_v
+  - tag:backlog_append_only

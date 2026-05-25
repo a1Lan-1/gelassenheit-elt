@@ -1,0 +1,97 @@
+# Google Sheets → bronze/gs → dbt gel_workforce (full snapshot per run).
+# schedule: default hourly at :00 MSK via gs_entity_schedule() in build_gs_dags.py
+conn_id: gs_conn
+spreadsheet_id: "1F9LPJRTQLOROEgmc64z2F0s8cv9YX4gGeHC5JnDCMKk"
+
+entities:
+  - entity: esp_techsup_schedule
+    range: "Export!A2:C49999"
+    has_header: false
+    columns: [employee, date, hours]
+    add_loaded_at: true
+    blank_to_null: true
+
+  - entity: akc1_techsup_schedule
+    range: "first_line_schedule!A2:C49000"
+    has_header: false
+    columns: [date, employee, hours]
+    hours_comma_decimal: true
+    blank_to_null: true
+
+  - entity: esp_techsup_activities
+    range: "schedule_2l_result!A2:D"
+    has_header: false
+    columns: [dt, user_name, activity_type, count_hours]
+    blank_to_null: true
+    legacy_extract: activities
+
+  - entity: employee_audit_tickets_sec
+    range: "audit_tickets!A2:D"
+    has_header: false
+    columns: [date, link, employee, score]
+# Dates from the worksheet as displayed lines (DD.MM.YYYY), not serial.
+    date_time_render_option: FORMATTED_STRING
+    date_columns: [date]
+
+  - entity: esp_techsup_employees
+    range: "esp_techsup_employees!A:F"
+    has_header: true
+    columns: [full_name, line, supervisor, hired_at, birthday, employment_status]
+    blank_to_null: true
+    required_column: full_name
+    dedupe_columns: [full_name]
+
+  - entity: akc2_techsup_schedule
+    range: "onecta_2nd_sch!A:C"
+    has_header: true
+    columns: [date, user_name, work_hours]
+    comma_decimal_columns: [work_hours]
+    blank_to_null: true
+    required_column: user_name
+
+  - entity: akc_employees
+    range: "akc_employees!A:L"
+    has_header: true
+    columns:
+      - supervisor
+      - employment_status
+      - group_name
+      - training_start_date
+      - training_end_date
+      - line_start_date
+      - full_name
+      - email
+      - telegram_login
+      - mm_login
+      - phone
+      - birthday
+    blank_to_null: true
+    short_row_pad: right
+    date_columns:
+      - training_start_date
+      - training_end_date
+      - line_start_date
+      - birthday
+
+  - entity: itm_msb_targets
+    range: "itm_msb_targets!A:E"
+    has_header: true
+    columns: [target_name, employee_type, effective_date, target_value, weight]
+    comma_decimal_columns: [target_value, weight]
+    blank_to_null: true
+    required_column: target_name
+
+  - entity: esp_test_results
+    range: "esp_test_results!A:D"
+    has_header: true
+    columns: [name, dt, n_questions, result]
+    comma_decimal_columns: [result]
+    blank_to_null: true
+    required_column: name
+    # As QA (audit_tickets): the date of the sheet with the string FORMATTED_STRING + date_columns.
+    # In bronze, the dt column is renamed to date (see gs_ingest): otherwise CH hive
+    # partition dt= The S3 path wipes the date value from the parquet.
+    date_time_render_option: FORMATTED_STRING
+    date_columns: [dt]
+    bronze_rename_columns: {dt: date}
+    validate_headers: true

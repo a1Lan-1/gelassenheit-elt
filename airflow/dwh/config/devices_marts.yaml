@@ -1,0 +1,4 @@
+# ESP install report mart in gel_helpdesk (gelassenheit-dbt tag:install_report).
+schedule: "57 * * * *"
+models:
+  - mart_devices__install_report

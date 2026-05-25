@@ -1,0 +1,332 @@
+# schedule: hourly :05 MSK (after FSD :00); override per entity optional
+# source_timezone: UTC — Postgres timestamptz; bronze serialize in naive MSK
+entities:
+- entity: ai_bot_sessions
+  source_table: public.ai_bot_sessions
+  watermark_column: updated_at
+  primary_key:
+  - ticket_id
+  load_mode: upsert_current
+  schedule: "5 * * * *"
+  columns:
+  - name: ticket_id
+    clickhouse_type: UUID
+    nullable: false
+  - name: session_id
+    clickhouse_type: UUID
+    nullable: false
+  - name: ticket_created_at
+    clickhouse_type: DateTime64(3)
+    nullable: true
+  - name: started_at
+    clickhouse_type: DateTime64(3)
+    nullable: false
+  - name: is_classified
+    clickhouse_type: UInt8
+    nullable: false
+  - name: classified_at
+    clickhouse_type: DateTime64(3)
+    nullable: true
+  - name: classified_service_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: reject_reason
+    clickhouse_type: String
+    nullable: true
+  - name: is_routed
+    clickhouse_type: UInt8
+    nullable: false
+  - name: routed_at
+    clickhouse_type: DateTime64(3)
+    nullable: true
+  - name: routed_reason
+    clickhouse_type: String
+    nullable: true
+  - name: in_group_id
+    clickhouse_type: String
+    nullable: true
+  - name: out_group_id
+    clickhouse_type: String
+    nullable: true
+  - name: is_answered
+    clickhouse_type: UInt8
+    nullable: false
+  - name: answered_at
+    clickhouse_type: DateTime64(3)
+    nullable: true
+  - name: user_continued
+    clickhouse_type: UInt8
+    nullable: false
+  - name: continued_at
+    clickhouse_type: DateTime64(3)
+    nullable: true
+  - name: outcome
+    clickhouse_type: String
+    nullable: true
+  - name: outcome_at
+    clickhouse_type: DateTime64(3)
+    nullable: true
+  - name: rating
+    clickhouse_type: Int16
+    nullable: true
+  - name: rating_at
+    clickhouse_type: DateTime64(3)
+    nullable: true
+  - name: dialogs_count
+    clickhouse_type: Int32
+    nullable: false
+  - name: updated_at
+    clickhouse_type: DateTime64(3)
+    nullable: false
+
+- entity: ai_answer_dialogs
+  source_table: public.ai_answer_dialogs
+  watermark_column: updated_at
+  primary_key:
+  - id
+  load_mode: upsert_current
+  schedule: "5 * * * *"
+  columns:
+  - name: id
+    clickhouse_type: UUID
+    nullable: false
+  - name: fsd_item_id
+    clickhouse_type: UUID
+    nullable: false
+  - name: fsd_number
+    clickhouse_type: String
+    nullable: true
+  - name: card_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: last_job_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: phase
+    clickhouse_type: String
+    nullable: false
+  - name: phase_entered_at
+    clickhouse_type: DateTime64(3)
+    nullable: false
+  - name: next_action_at
+    clickhouse_type: DateTime64(3)
+    nullable: true
+  - name: channel
+    clickhouse_type: String
+    nullable: false
+  - name: rounds
+    clickhouse_type: Int32
+    nullable: false
+  - name: warning_sent_at
+    clickhouse_type: DateTime64(3)
+    nullable: true
+  - name: rating
+    clickhouse_type: Int16
+    nullable: true
+  - name: rating_source
+    clickhouse_type: String
+    nullable: true
+  - name: rated_at
+    clickhouse_type: DateTime64(3)
+    nullable: true
+  - name: replies_total
+    clickhouse_type: Int32
+    nullable: false
+  - name: replies_unrecognized
+    clickhouse_type: Int32
+    nullable: false
+  - name: close_reason
+    clickhouse_type: String
+    nullable: true
+  - name: closure_code
+    clickhouse_type: String
+    nullable: true
+  - name: closed_at
+    clickhouse_type: DateTime64(3)
+    nullable: true
+  - name: close_attempts
+    clickhouse_type: Int32
+    nullable: false
+  - name: handoff_reason
+    clickhouse_type: String
+    nullable: true
+  - name: handoff_at
+    clickhouse_type: DateTime64(3)
+    nullable: true
+  - name: handoff_group_id
+    clickhouse_type: String
+    nullable: true
+  - name: error_text
+    clickhouse_type: String
+    nullable: true
+  - name: version
+    clickhouse_type: Int32
+    nullable: false
+  - name: created_at
+    clickhouse_type: DateTime64(3)
+    nullable: false
+  - name: updated_at
+    clickhouse_type: DateTime64(3)
+    nullable: false
+  - name: recognize_cost_rub
+    clickhouse_type: Float64
+    nullable: false
+  - name: reopened_count
+    clickhouse_type: Int32
+    nullable: false
+  - name: activity_calls
+    clickhouse_type: Int32
+    nullable: false
+  - name: rounds_new_question
+    clickhouse_type: Int32
+    nullable: false
+
+- entity: ai_usage_daily
+  source_table: public.ai_usage_daily
+  watermark_column: day
+  primary_key:
+  - day
+  load_mode: upsert_current
+  full_snapshot: true
+  schedule: "5 * * * *"
+  columns:
+  - name: day
+    clickhouse_type: Date
+    nullable: false
+  - name: calls
+    clickhouse_type: Int32
+    nullable: false
+  - name: done
+    clickhouse_type: Int32
+    nullable: false
+  - name: failed
+    clickhouse_type: Int32
+    nullable: false
+  - name: skipped_input_unchanged
+    clickhouse_type: Int32
+    nullable: false
+  - name: skipped_filtered_status
+    clickhouse_type: Int32
+    nullable: false
+  - name: skipped_max_reached
+    clickhouse_type: Int32
+    nullable: false
+  - name: skipped_other
+    clickhouse_type: Int32
+    nullable: false
+  - name: skipped_not_in_scope
+    clickhouse_type: Int32
+    nullable: false
+  - name: calls_live
+    clickhouse_type: Int32
+    nullable: false
+  - name: calls_backfill
+    clickhouse_type: Int32
+    nullable: false
+  - name: calls_reopened
+    clickhouse_type: Int32
+    nullable: false
+  - name: calls_test_run
+    clickhouse_type: Int32
+    nullable: false
+  - name: est_tokens
+    clickhouse_type: Int64
+    nullable: false
+  - name: est_cost_rub
+    clickhouse_type: Float64
+    nullable: false
+  - name: latency_ms_sum
+    clickhouse_type: Int64
+    nullable: false
+  - name: latency_cnt
+    clickhouse_type: Int32
+    nullable: false
+  - name: skipped_input_filtered
+    clickhouse_type: Int32
+    nullable: false
+  - name: marker_missing
+    clickhouse_type: Int32
+    nullable: false
+  - name: calls_manual
+    clickhouse_type: Int32
+    nullable: false
+  - name: calls_answer
+    clickhouse_type: Int32
+    nullable: false
+  - name: calls_answer_rejected
+    clickhouse_type: Int32
+    nullable: false
+  - name: calls_answer_free
+    clickhouse_type: Int32
+    nullable: false
+  - name: calls_quality_check
+    clickhouse_type: Int32
+    nullable: false
+  - name: tokens_answer_prompt
+    clickhouse_type: Int64
+    nullable: false
+  - name: tokens_answer_completion
+    clickhouse_type: Int64
+    nullable: false
+  - name: tokens_quality_prompt
+    clickhouse_type: Int64
+    nullable: false
+  - name: tokens_quality_completion
+    clickhouse_type: Int64
+    nullable: false
+  - name: cost_answer_rub
+    clickhouse_type: Float64
+    nullable: false
+  - name: cost_quality_rub
+    clickhouse_type: Float64
+    nullable: false
+  - name: calls_reply_recognize
+    clickhouse_type: Int32
+    nullable: false
+  - name: tokens_reply_prompt
+    clickhouse_type: Int64
+    nullable: false
+  - name: tokens_reply_completion
+    clickhouse_type: Int64
+    nullable: false
+  - name: cost_reply_rub
+    clickhouse_type: Float64
+    nullable: false
+  - name: calls_classic_ml
+    clickhouse_type: Int32
+    nullable: false
+  - name: classic_ml_failed
+    clickhouse_type: Int32
+    nullable: false
+  - name: classic_ml_latency_ms_sum
+    clickhouse_type: Int64
+    nullable: false
+  - name: classic_ml_latency_cnt
+    clickhouse_type: Int32
+    nullable: false
+
+# Mapping: sessions.ticket_id / dialogs.fsd_item_id = fsd_items.id
+#           fsd_items.fsd_id = FSD ticket UUID (mart_tickets_enriched.id)
+- entity: fsd_items
+  source_table: public.fsd_items
+  watermark_column: updated_at
+  primary_key:
+  - id
+  load_mode: upsert_current
+  schedule: "5 * * * *"
+  columns:
+  - name: id
+    clickhouse_type: UUID
+    nullable: false
+  - name: fsd_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: fsd_number
+    clickhouse_type: String
+    nullable: true
+  - name: entity_type
+    clickhouse_type: String
+    nullable: false
+  - name: updated_at
+    clickhouse_type: DateTime64(3)
+    nullable: false
