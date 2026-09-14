@@ -3,7 +3,7 @@ version: 2
 models:
 
   - name: int_pbx__calls_current
-    description: Stable call current grain (30 columns)
+    description: Stable PBX call current grain (30 columns); enrichment lives in calls_detail
     config:
       alias: cur_calls
       tags: [pbx, calls, current]
