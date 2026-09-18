@@ -1,5 +1,5 @@
 {
-  "source": "gel_pbx.cur_calls_v sample (portfolio notes)",
+  "source": "gel_pbx.cur_calls_v recent 20 (no ext_params historically)",
   "n_calls": 20,
   "has_conversion_count": 0,
   "n_legs": 20,
