@@ -6,4 +6,21 @@ profiles.yml
 __pycache__/
 *.py[cod]
 
+# local one-off / probe / logs (do not commit)
+scripts/_*
+scripts/*.log
+scripts/*_output.log
+scripts/*_output.txt
+scripts/discover_*
+scripts/probe_*
+scripts/rerun*_output.log
+scripts/refresh_output.log
+tmp_*
+_push_*
+_ssh_run.py
+_cleanup_*
+_untracked_*
+docs/*
+!docs/speed_audit/
+!docs/speed_audit/**
 .cursor/settings.json
