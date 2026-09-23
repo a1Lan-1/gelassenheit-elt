@@ -1,0 +1,882 @@
+version: 2
+
+models:
+
+  - name: int_helpdesk__appeals_current
+    description: FSD appeals current (ReplacingMergeTree)
+    config:
+      alias: cur_appeals
+      tags: [fsd, appeals, current]
+    columns:
+      - name: id
+        tests: [not_null]
+      - name: appeal_id
+        tests: [not_null]
+      - name: companion_id
+        tests: [not_null]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+
+  - name: int_helpdesk__appeals_current_v
+    description: FSD appeals current deduplicated for BI (FINAL)
+    config:
+      alias: cur_appeals_v
+      tags: [fsd, appeals, current_view]
+    columns:
+      - name: id
+        tests: [not_null, unique]
+      - name: appeal_id
+        tests: [not_null]
+      - name: companion_id
+        tests: [not_null]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+
+  - name: int_helpdesk__comments_current
+    description: FSD comments current (ReplacingMergeTree)
+    config:
+      alias: cur_comments
+      tags: [fsd, comments, current]
+    columns:
+      - name: id
+        tests: [not_null]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+
+  - name: int_helpdesk__comments_current_v
+    description: FSD comments current deduplicated for BI (FINAL)
+    config:
+      alias: cur_comments_v
+      tags: [fsd, comments, current_view]
+    columns:
+      - name: id
+        tests: [not_null, unique]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+
+  - name: int_helpdesk__config_items_current
+    description: FSD config_items current (ReplacingMergeTree)
+    config:
+      alias: cur_ci
+      tags: [fsd, config_items, current]
+    columns:
+      - name: id
+        tests: [not_null]
+      - name: sku_id
+        tests: [not_null]
+      - name: item_id
+        tests: [not_null]
+      - name: quantity
+        tests: [not_null]
+      - name: cost
+        tests: [not_null]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+      - name: waybill_in
+        tests: [not_null]
+      - name: weight
+        tests: [not_null]
+
+  - name: int_helpdesk__config_items_current_v
+    description: FSD config_items current deduplicated for BI (FINAL)
+    config:
+      alias: cur_ci_v
+      tags: [fsd, config_items, current_view]
+    columns:
+      - name: id
+        tests: [not_null, unique]
+      - name: sku_id
+        tests: [not_null]
+      - name: item_id
+        tests: [not_null]
+      - name: quantity
+        tests: [not_null]
+      - name: cost
+        tests: [not_null]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+      - name: waybill_in
+        tests: [not_null]
+      - name: weight
+        tests: [not_null]
+
+  - name: int_helpdesk__entities_current
+    description: FSD entities current (ReplacingMergeTree)
+    config:
+      alias: cur_entities
+      tags: [fsd, entities, current]
+    columns:
+      - name: id
+        tests: [not_null]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+
+  - name: int_helpdesk__entities_current_v
+    description: FSD entities current deduplicated for BI (FINAL)
+    config:
+      alias: cur_entities_v
+      tags: [fsd, entities, current_view]
+    columns:
+      - name: id
+        tests: [not_null, unique]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+
+  - name: int_helpdesk__history_current
+    description: FSD history current (ReplacingMergeTree)
+    config:
+      alias: cur_history
+      tags: [fsd, history, current]
+    columns:
+      - name: id
+        tests: [not_null]
+      - name: action_type
+        tests: [not_null]
+      - name: object_type
+        tests: [not_null]
+      - name: object_id
+        tests: [not_null]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+
+  - name: int_helpdesk__history_current_v
+    description: FSD history current deduplicated for BI (FINAL)
+    config:
+      alias: cur_history_v
+      tags: [fsd, history, current_view]
+    columns:
+      - name: id
+        tests: [not_null, unique]
+      - name: action_type
+        tests: [not_null]
+      - name: object_type
+        tests: [not_null]
+      - name: object_id
+        tests: [not_null]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+
+  - name: int_helpdesk__persons_current
+    description: FSD persons current (ReplacingMergeTree)
+    config:
+      alias: cur_persons
+      tags: [fsd, persons, current]
+    columns:
+      - name: id
+        tests: [not_null]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+
+  - name: int_helpdesk__persons_current_v
+    description: FSD persons current deduplicated for BI (FINAL)
+    config:
+      alias: cur_persons_v
+      tags: [fsd, persons, current_view]
+    columns:
+      - name: id
+        tests: [not_null, unique]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+
+  - name: int_helpdesk__places_current
+    description: FSD places current (ReplacingMergeTree)
+    config:
+      alias: cur_places
+      tags: [fsd, places, current]
+    columns:
+      - name: id
+        tests: [not_null]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+      - name: type
+        tests: [not_null]
+      - name: post_delivery_valid
+        tests: [not_null]
+
+  - name: int_helpdesk__places_current_v
+    description: FSD places current deduplicated for BI (FINAL)
+    config:
+      alias: cur_places_v
+      tags: [fsd, places, current_view]
+    columns:
+      - name: id
+        tests: [not_null, unique]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+      - name: type
+        tests: [not_null]
+      - name: post_delivery_valid
+        tests: [not_null]
+
+  - name: int_helpdesk__services_current
+    description: FSD services current (ReplacingMergeTree)
+    config:
+      alias: cur_services
+      tags: [fsd, services, current]
+    columns:
+      - name: id
+        tests: [not_null]
+      - name: name
+        tests: [not_null]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+
+  - name: int_helpdesk__services_current_v
+    description: FSD services current deduplicated for BI (FINAL)
+    config:
+      alias: cur_services_v
+      tags: [fsd, services, current_view]
+    columns:
+      - name: id
+        tests: [not_null, unique]
+      - name: name
+        tests: [not_null]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+
+  - name: int_helpdesk__sku_current
+    description: FSD sku current (ReplacingMergeTree)
+    config:
+      alias: cur_sku
+      tags: [fsd, sku, current]
+    columns:
+      - name: id
+        tests: [not_null]
+      - name: type
+        tests: [not_null]
+      - name: unit
+        tests: [not_null]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+      - name: weight
+        tests: [not_null]
+      - name: is_digital
+        tests: [not_null]
+      - name: cost
+        tests: [not_null]
+      - name: is_package
+        tests: [not_null]
+
+  - name: int_helpdesk__sku_current_v
+    description: FSD sku current deduplicated for BI (FINAL)
+    config:
+      alias: cur_sku_v
+      tags: [fsd, sku, current_view]
+    columns:
+      - name: id
+        tests: [not_null, unique]
+      - name: type
+        tests: [not_null]
+      - name: unit
+        tests: [not_null]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+      - name: weight
+        tests: [not_null]
+      - name: is_digital
+        tests: [not_null]
+      - name: cost
+        tests: [not_null]
+      - name: is_package
+        tests: [not_null]
+
+  - name: int_helpdesk__statuses_current
+    description: FSD statuses current (ReplacingMergeTree)
+    config:
+      alias: cur_statuses
+      tags: [fsd, statuses, current]
+    columns:
+      - name: id
+        tests: [not_null]
+      - name: name
+        tests: [not_null]
+      - name: code
+        tests: [not_null]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+      - name: default
+        tests: [not_null]
+
+  - name: int_helpdesk__statuses_current_v
+    description: FSD statuses current deduplicated for BI (FINAL)
+    config:
+      alias: cur_statuses_v
+      tags: [fsd, statuses, current_view]
+    columns:
+      - name: id
+        tests: [not_null, unique]
+      - name: name
+        tests: [not_null]
+      - name: code
+        tests: [not_null]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+      - name: default
+        tests: [not_null]
+
+  - name: int_helpdesk__task_config_item_current
+    description: FSD task_config_item current (ReplacingMergeTree)
+    config:
+      alias: cur_task_ci
+      tags: [fsd, task_config_item, current]
+    columns:
+      - name: id
+        tests: [not_null]
+      - name: task_id
+        tests: [not_null]
+      - name: config_item_id
+        tests: [not_null]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+
+  - name: int_helpdesk__task_config_item_current_v
+    description: FSD task_config_item current deduplicated for BI (FINAL)
+    config:
+      alias: cur_task_ci_v
+      tags: [fsd, task_config_item, current_view]
+    columns:
+      - name: id
+        tests: [not_null, unique]
+      - name: task_id
+        tests: [not_null]
+      - name: config_item_id
+        tests: [not_null]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+
+  - name: int_helpdesk__task_status_current
+    description: FSD task_status current (ReplacingMergeTree)
+    config:
+      alias: cur_task_status
+      tags: [fsd, task_status, current]
+    columns:
+      - name: id
+        tests: [not_null]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+
+  - name: int_helpdesk__task_status_current_v
+    description: FSD task_status current deduplicated for BI (FINAL)
+    config:
+      alias: cur_task_status_v
+      tags: [fsd, task_status, current_view]
+    columns:
+      - name: id
+        tests: [not_null, unique]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+
+  - name: int_helpdesk__tasks_current
+    description: FSD tasks current (ReplacingMergeTree)
+    config:
+      alias: cur_tasks
+      tags: [fsd, tasks, current]
+    columns:
+      - name: id
+        tests: [not_null]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+      - name: number
+        tests: [not_null]
+      - name: partner_delivery
+        tests: [not_null]
+
+  - name: int_helpdesk__tasks_current_v
+    description: FSD tasks current deduplicated for BI (FINAL)
+    config:
+      alias: cur_tasks_v
+      tags: [fsd, tasks, current_view]
+    columns:
+      - name: id
+        tests: [not_null, unique]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+      - name: number
+        tests: [not_null]
+      - name: partner_delivery
+        tests: [not_null]
+
+  - name: int_helpdesk__ticket_cases_current
+    description: FSD ticket_cases current (ReplacingMergeTree)
+    config:
+      alias: cur_cases
+      tags: [fsd, ticket_cases, current]
+    columns:
+      - name: id
+        tests: [not_null]
+      - name: name
+        tests: [not_null]
+      - name: code
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+
+  - name: int_helpdesk__ticket_cases_current_v
+    description: FSD ticket_cases current deduplicated for BI (FINAL)
+    config:
+      alias: cur_cases_v
+      tags: [fsd, ticket_cases, current_view]
+    columns:
+      - name: id
+        tests: [not_null, unique]
+      - name: name
+        tests: [not_null]
+      - name: code
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+
+  - name: int_helpdesk__ticket_categories_current
+    description: FSD ticket_categories current (ReplacingMergeTree)
+    config:
+      alias: cur_categories
+      tags: [fsd, ticket_categories, current]
+    columns:
+      - name: id
+        tests: [not_null]
+      - name: code
+        tests: [not_null]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+
+  - name: int_helpdesk__ticket_categories_current_v
+    description: FSD ticket_categories current deduplicated for BI (FINAL)
+    config:
+      alias: cur_categories_v
+      tags: [fsd, ticket_categories, current_view]
+    columns:
+      - name: id
+        tests: [not_null, unique]
+      - name: code
+        tests: [not_null]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+
+  - name: int_helpdesk__ticket_channels_current
+    description: FSD ticket_channels current (ReplacingMergeTree)
+    config:
+      alias: cur_channels
+      tags: [fsd, ticket_channels, current]
+    columns:
+      - name: id
+        tests: [not_null]
+      - name: name
+        tests: [not_null]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+
+  - name: int_helpdesk__ticket_channels_current_v
+    description: FSD ticket_channels current deduplicated for BI (FINAL)
+    config:
+      alias: cur_channels_v
+      tags: [fsd, ticket_channels, current_view]
+    columns:
+      - name: id
+        tests: [not_null, unique]
+      - name: name
+        tests: [not_null]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+
+  - name: int_helpdesk__ticket_config_item_current
+    description: FSD ticket_config_item current (ReplacingMergeTree)
+    config:
+      alias: cur_ticket_ci
+      tags: [fsd, ticket_config_item, current]
+    columns:
+      - name: id
+        tests: [not_null]
+      - name: ticket_id
+        tests: [not_null]
+      - name: config_item_id
+        tests: [not_null]
+      - name: operation
+        tests: [not_null]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+
+  - name: int_helpdesk__ticket_config_item_current_v
+    description: FSD ticket_config_item current deduplicated for BI (FINAL)
+    config:
+      alias: cur_ticket_ci_v
+      tags: [fsd, ticket_config_item, current_view]
+    columns:
+      - name: id
+        tests: [not_null, unique]
+      - name: ticket_id
+        tests: [not_null]
+      - name: config_item_id
+        tests: [not_null]
+      - name: operation
+        tests: [not_null]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+
+  - name: int_helpdesk__ticket_status_current
+    description: FSD ticket_status current (ReplacingMergeTree)
+    config:
+      alias: cur_statuses_history
+      tags: [fsd, ticket_status, current]
+    columns:
+      - name: id
+        tests: [not_null]
+      - name: date_begin
+        tests: [not_null]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+
+  - name: int_helpdesk__ticket_status_current_v
+    description: FSD ticket_status current deduplicated for BI (FINAL)
+    config:
+      alias: cur_statuses_history_v
+      tags: [fsd, ticket_status, current_view]
+    columns:
+      - name: id
+        tests: [not_null, unique]
+      - name: date_begin
+        tests: [not_null]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+
+  - name: int_helpdesk__tickets_current
+    description: FSD tickets current (ReplacingMergeTree)
+    config:
+      alias: cur_tickets
+      tags: [fsd, tickets, current]
+    columns:
+      - name: id
+        tests: [not_null]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+      - name: number
+        tests: [not_null]
+
+  - name: int_helpdesk__tickets_current_v
+    description: FSD tickets current deduplicated for BI (FINAL)
+    config:
+      alias: cur_tickets_v
+      tags: [fsd, tickets, current_view]
+    columns:
+      - name: id
+        tests: [not_null, unique]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+      - name: number
+        tests: [not_null]
+
+  - name: int_helpdesk__types_current
+    description: FSD types current (ReplacingMergeTree)
+    config:
+      alias: cur_types
+      tags: [fsd, types, current]
+    columns:
+      - name: id
+        tests: [not_null]
+      - name: name
+        tests: [not_null]
+      - name: code
+        tests: [not_null]
+      - name: table_name
+        tests: [not_null]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+
+  - name: int_helpdesk__types_current_v
+    description: FSD types current deduplicated for BI (FINAL)
+    config:
+      alias: cur_types_v
+      tags: [fsd, types, current_view]
+    columns:
+      - name: id
+        tests: [not_null, unique]
+      - name: name
+        tests: [not_null]
+      - name: code
+        tests: [not_null]
+      - name: table_name
+        tests: [not_null]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+
+  - name: int_helpdesk__user_groups_current
+    description: FSD user_groups current (ReplacingMergeTree)
+    config:
+      alias: cur_user_groups
+      tags: [fsd, user_groups, current]
+    columns:
+      - name: id
+        tests: [not_null]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+
+  - name: int_helpdesk__user_groups_current_v
+    description: FSD user_groups current deduplicated for BI (FINAL)
+    config:
+      alias: cur_user_groups_v
+      tags: [fsd, user_groups, current_view]
+    columns:
+      - name: id
+        tests: [not_null, unique]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+
+  - name: int_helpdesk__user_groups_mapping_current
+    description: FSD user_groups_mapping current (ReplacingMergeTree)
+    config:
+      alias: cur_ug_mapping
+      tags: [fsd, user_groups_mapping, current]
+    columns:
+      - name: id
+        tests: [not_null]
+      - name: user_id
+        tests: [not_null]
+      - name: user_group_id
+        tests: [not_null]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+
+  - name: int_helpdesk__user_groups_mapping_current_v
+    description: FSD user_groups_mapping current deduplicated for BI (FINAL)
+    config:
+      alias: cur_ug_mapping_v
+      tags: [fsd, user_groups_mapping, current_view]
+    columns:
+      - name: id
+        tests: [not_null, unique]
+      - name: user_id
+        tests: [not_null]
+      - name: user_group_id
+        tests: [not_null]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+
+  - name: int_helpdesk__user_types_current
+    description: FSD user_types current (ReplacingMergeTree)
+    config:
+      alias: cur_user_types
+      tags: [fsd, user_types, current]
+    columns:
+      - name: id
+        tests: [not_null]
+      - name: name
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+
+  - name: int_helpdesk__user_types_current_v
+    description: FSD user_types current deduplicated for BI (FINAL)
+    config:
+      alias: cur_user_types_v
+      tags: [fsd, user_types, current_view]
+    columns:
+      - name: id
+        tests: [not_null, unique]
+      - name: name
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+
+  - name: int_helpdesk__users_current
+    description: FSD users current (ReplacingMergeTree)
+    config:
+      alias: cur_users
+      tags: [fsd, users, current]
+    columns:
+      - name: id
+        tests: [not_null]
+      - name: user_name
+        tests: [not_null]
+      - name: first_name
+        tests: [not_null]
+      - name: last_name
+        tests: [not_null]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+      - name: blocked
+        tests: [not_null]
+
+  - name: int_helpdesk__users_current_v
+    description: FSD users current deduplicated for BI (FINAL)
+    config:
+      alias: cur_users_v
+      tags: [fsd, users, current_view]
+    columns:
+      - name: id
+        tests: [not_null, unique]
+      - name: user_name
+        tests: [not_null]
+      - name: first_name
+        tests: [not_null]
+      - name: last_name
+        tests: [not_null]
+      - name: created_at
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+      - name: blocked
+        tests: [not_null]
+
+  - name: int_helpdesk__ticket_first_status
+    description: First status per ticket from history (optional lookup, not in enriched core)
+    config:
+      alias: cur_ticket_first_status
+      tags: [fsd, current]
+    columns:
+      - name: ticket_id
+        tests: [not_null, unique]
+
+  - name: int_helpdesk__history_action_extract
+    description: >
+      JSON-extracted history rows for ticket actions (append + ReplacingMergeTree).
+      Consumed by int_helpdesk__ticket_actions_base.
+    config:
+      alias: cur_history_action_extract
+      tags: [fsd, ticket_actions, ticket_actions_core, current]
+    columns:
+      - name: id
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+
+  - name: int_helpdesk__ticket_actions_base
+    description: Extracted history actions with ticket/task resolution (narrow incremental layer)
+    config:
+      alias: cur_ticket_actions_base
+      tags: [fsd, ticket_actions, ticket_actions_core, current]
+    columns:
+      - name: id
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+
+  - name: int_helpdesk__config_items_cashdesk
+    description: Config items with cashdeskId extracted from data JSON once per refresh.
+    config:
+      alias: int_config_items_cashdesk
+      tags: [fsd, tasks_enriched, tasks_enriched_core, current]
+    columns:
+      - name: item_id
+        tests: [not_null]
+      - name: cashdesk_id
+        tests: [not_null]
+
+  - name: int_helpdesk__task_ci_primary
+    description: One primary config item row per task (cashdesk-preferring argMax).
+    config:
+      alias: int_task_ci_primary
+      tags: [fsd, tasks_enriched, tasks_enriched_core, current]
+    columns:
+      - name: task_id
+        tests: [not_null, unique]
+
+  - name: int_helpdesk__tickets_enriched_current
+    description: >
+      Enriched tickets (append + ReplacingMergeTree by updated_at).
+      BI reads via mart_helpdesk__tickets_enriched FINAL.
+    config:
+      alias: cur_tickets_enriched
+      tags: [fsd, tickets_enriched, tickets_enriched_core, current]
+    columns:
+      - name: id
+        tests: [not_null]
+      - name: updated_at
+        tests: [not_null]
+
+  - name: int_helpdesk__tasks_enriched_current
+    description: >
+      Enriched tasks (append + ReplacingMergeTree); one logical row per task.
+      BI reads via mart_helpdesk__tasks_enriched FINAL.
+    config:
+      alias: cur_tasks_enriched
+      tags: [fsd, tasks_enriched, tasks_enriched_core, current]
+    columns:
+      - name: id
+        tests: [not_null]
+      - name: created_at
+        tests: [not_null]
