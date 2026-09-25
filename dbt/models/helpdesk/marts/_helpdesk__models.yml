@@ -1,0 +1,7 @@
+version: 2
+
+models:
+  - name: etl_watermarks
+    description: Incremental extract watermarks for FSD ingest (managed by Airflow + dbt)
+    config:
+      tags: [fsd, meta]
