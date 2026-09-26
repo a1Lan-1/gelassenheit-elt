@@ -1,0 +1,61 @@
+version: 2
+
+models:
+  - name: audit_bronze__fsd
+    description: Bronze manifest audit for all FSD entities (gel_helpdesk.audit_bronze)
+    config:
+      alias: audit_bronze
+      tags: [ops, audit_bronze, fsd]
+    columns:
+      - name: source
+        tests: [not_null]
+      - name: entity
+        tests: [not_null]
+      - name: bronze_run_id
+        tests: [not_null]
+  - name: audit_bronze__crm
+    description: Bronze manifest audit for CRM (gel_crm.audit_bronze)
+    config:
+      alias: audit_bronze
+      tags: [ops, audit_bronze, crm]
+  - name: audit_bronze__pbx
+    description: Bronze manifest audit for PBX (gel_pbx.audit_bronze)
+    config:
+      alias: audit_bronze
+      tags: [ops, audit_bronze, pbx]
+  - name: audit_bronze__dialer
+    description: Bronze manifest audit for Dialer (gel_dialer.audit_bronze)
+    config:
+      alias: audit_bronze
+      tags: [ops, audit_bronze, dialer]
+  - name: audit_bronze__gs
+    description: Bronze manifest audit for Google Sheets (gel_workforce.audit_bronze)
+    config:
+      alias: audit_bronze
+      tags: [ops, audit_bronze, gs]
+
+  - name: audit_dbt_runs__fsd
+    description: dbt model run timings for FSD/ESP (gel_helpdesk.audit_dbt_runs); live INSERT via log_dbt_run_stats.py
+    config:
+      alias: audit_dbt_runs
+      tags: [ops, audit_dbt_runs, fsd]
+  - name: audit_dbt_runs__crm
+    description: dbt model run timings for CRM (gel_crm.audit_dbt_runs)
+    config:
+      alias: audit_dbt_runs
+      tags: [ops, audit_dbt_runs, crm]
+  - name: audit_dbt_runs__pbx
+    description: dbt model run timings for PBX (gel_pbx.audit_dbt_runs)
+    config:
+      alias: audit_dbt_runs
+      tags: [ops, audit_dbt_runs, pbx]
+  - name: audit_dbt_runs__dialer
+    description: dbt model run timings for Dialer (gel_dialer.audit_dbt_runs)
+    config:
+      alias: audit_dbt_runs
+      tags: [ops, audit_dbt_runs, dialer]
+  - name: audit_dbt_runs__gs
+    description: dbt model run timings for Google Sheets (gel_workforce.audit_dbt_runs)
+    config:
+      alias: audit_dbt_runs
+      tags: [ops, audit_dbt_runs, gs]
