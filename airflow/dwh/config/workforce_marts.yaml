@@ -1,0 +1,2 @@
+# Hourly after FSD marts; also asset-triggered when upstream deps update (:56 cron fallback).
+schedule: "56 * * * *"

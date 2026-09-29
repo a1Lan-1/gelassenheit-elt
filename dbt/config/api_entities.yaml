@@ -1,0 +1,1306 @@
+domains:
+  crm:
+    schedule: '*/17 * * * *'
+    source_timezone: UTC
+    entities:
+    - entity: deals
+      api: crm
+      dbt_model: stg_crm__deals
+      primary_key:
+      - id
+      order_column: updated_at
+      columns:
+      - name: id
+        clickhouse_type: UInt64
+        nullable: false
+      - name: name
+        clickhouse_type: String
+        nullable: true
+      - name: price
+        clickhouse_type: Int64
+        nullable: true
+      - name: responsible_user_id
+        clickhouse_type: UInt64
+        nullable: true
+      - name: group_id
+        clickhouse_type: UInt64
+        nullable: true
+      - name: status_id
+        clickhouse_type: UInt64
+        nullable: true
+      - name: pipeline_id
+        clickhouse_type: UInt64
+        nullable: true
+      - name: loss_reason_id
+        clickhouse_type: UInt64
+        nullable: true
+      - name: source_id
+        clickhouse_type: UInt64
+        nullable: true
+      - name: created_by
+        clickhouse_type: UInt64
+        nullable: true
+      - name: updated_by
+        clickhouse_type: UInt64
+        nullable: true
+      - name: closed_at
+        clickhouse_type: DateTime64(3)
+        nullable: true
+      - name: created_at
+        clickhouse_type: DateTime64(3)
+        nullable: true
+      - name: updated_at
+        clickhouse_type: DateTime64(3)
+        nullable: true
+      - name: closest_task_at
+        clickhouse_type: DateTime64(3)
+        nullable: true
+      - name: is_deleted
+        clickhouse_type: Bool
+        nullable: true
+      - name: custom_fields_values
+        clickhouse_type: JSON
+        nullable: true
+        semantic_type: json
+      - name: score
+        clickhouse_type: Float64
+        nullable: true
+      - name: account_id
+        clickhouse_type: UInt64
+        nullable: true
+      - name: labor_cost
+        clickhouse_type: Float64
+        nullable: true
+      - name: is_price_modified_by_robot
+        clickhouse_type: Bool
+        nullable: true
+      - name: tags
+        clickhouse_type: JSON
+        nullable: true
+        semantic_type: json
+      - name: contacts
+        clickhouse_type: JSON
+        nullable: true
+        semantic_type: json
+      - name: company_id
+        clickhouse_type: UInt64
+        nullable: true
+      - name: msb_deal_completed
+        clickhouse_type: DateTime64(3)
+        nullable: true
+      - name: msb_stage_date
+        clickhouse_type: DateTime64(3)
+        nullable: true
+      - name: msb_contact_date
+        clickhouse_type: DateTime64(3)
+        nullable: true
+      - name: msb_first_contact_date
+        clickhouse_type: DateTime64(3)
+        nullable: true
+      - name: msb_last_call_date
+        clickhouse_type: DateTime64(3)
+        nullable: true
+      - name: msb_contact_form
+        clickhouse_type: String
+        nullable: true
+      - name: kkt_count
+        clickhouse_type: String
+        nullable: true
+    - entity: companies
+      api: crm
+      dbt_model: stg_crm__companies
+      primary_key:
+      - id
+      order_column: updated_at
+      columns:
+      - name: id
+        clickhouse_type: UInt64
+        nullable: false
+      - name: name
+        clickhouse_type: String
+        nullable: true
+      - name: responsible_user_id
+        clickhouse_type: UInt64
+        nullable: true
+      - name: group_id
+        clickhouse_type: UInt64
+        nullable: true
+      - name: created_by
+        clickhouse_type: UInt64
+        nullable: true
+      - name: updated_by
+        clickhouse_type: UInt64
+        nullable: true
+      - name: created_at
+        clickhouse_type: DateTime64(3)
+        nullable: true
+      - name: updated_at
+        clickhouse_type: DateTime64(3)
+        nullable: true
+      - name: closest_task_at
+        clickhouse_type: DateTime64(3)
+        nullable: true
+      - name: is_deleted
+        clickhouse_type: Bool
+        nullable: true
+      - name: custom_fields_values
+        clickhouse_type: JSON
+        nullable: true
+        semantic_type: json
+      - name: inn
+        clickhouse_type: String
+        nullable: true
+      - name: account_id
+        clickhouse_type: UInt64
+        nullable: true
+      - name: tags
+        clickhouse_type: JSON
+        nullable: true
+        semantic_type: json
+      - name: customers
+        clickhouse_type: JSON
+        nullable: true
+        semantic_type: json
+      - name: leads
+        clickhouse_type: JSON
+        nullable: true
+        semantic_type: json
+      - name: catalog_elements
+        clickhouse_type: JSON
+        nullable: true
+        semantic_type: json
+    - entity: users
+      api: crm
+      dbt_model: stg_crm__users
+      primary_key:
+      - id
+      columns:
+      - name: id
+        clickhouse_type: UInt64
+        nullable: false
+      - name: name
+        clickhouse_type: String
+        nullable: true
+      - name: email
+        clickhouse_type: String
+        nullable: true
+    - entity: deal_statuses
+      alias: statuses
+      api: crm
+      dbt_model: stg_crm__deal_statuses
+      primary_key:
+      - id
+      columns:
+      - name: id
+        clickhouse_type: UInt64
+        nullable: false
+      - name: name
+        clickhouse_type: String
+        nullable: true
+      - name: sort
+        clickhouse_type: Int32
+        nullable: true
+      - name: pipeline_id
+        clickhouse_type: UInt64
+        nullable: true
+    - entity: events
+      api: crm
+      dbt_model: int_crm__events_current
+      primary_key:
+      - id
+      order_column: created_at
+      columns:
+      - name: id
+        clickhouse_type: String
+        nullable: false
+      - name: type
+        clickhouse_type: String
+        nullable: true
+      - name: entity_id
+        clickhouse_type: UInt64
+        nullable: true
+      - name: entity_type
+        clickhouse_type: String
+        nullable: true
+      - name: created_by
+        clickhouse_type: UInt64
+        nullable: true
+      - name: created_at
+        clickhouse_type: DateTime64(3)
+        nullable: true
+      - name: value_after
+        clickhouse_type: JSON
+        nullable: true
+        semantic_type: json
+      - name: value_before
+        clickhouse_type: JSON
+        nullable: true
+        semantic_type: json
+      - name: account_id
+        clickhouse_type: UInt64
+        nullable: true
+      - name: entity_name
+        clickhouse_type: String
+        nullable: true
+      - name: embedded_entity
+        clickhouse_type: JSON
+        nullable: true
+        semantic_type: json
+    - entity: pipelines
+      api: crm
+      dbt_model: int_crm__pipelines_current
+      primary_key:
+      - id
+      columns:
+      - name: id
+        clickhouse_type: UInt64
+        nullable: false
+      - name: name
+        clickhouse_type: String
+        nullable: true
+      - name: sort
+        clickhouse_type: Int32
+        nullable: true
+      - name: is_main
+        clickhouse_type: String
+        nullable: true
+      - name: is_archive
+        clickhouse_type: String
+        nullable: true
+      - name: account_id
+        clickhouse_type: UInt64
+        nullable: true
+      - name: raw_data
+        clickhouse_type: JSON
+        nullable: true
+        semantic_type: json
+    - entity: loss_reasons
+      api: crm
+      dbt_model: int_crm__loss_reasons_current
+      primary_key:
+      - id
+      columns:
+      - name: id
+        clickhouse_type: UInt64
+        nullable: false
+      - name: name
+        clickhouse_type: String
+        nullable: true
+      - name: sort
+        clickhouse_type: Int32
+        nullable: true
+      - name: account_id
+        clickhouse_type: UInt64
+        nullable: true
+      - name: raw_data
+        clickhouse_type: JSON
+        nullable: true
+        semantic_type: json
+    - entity: roles
+      api: crm
+      dbt_model: int_crm__roles_current
+      primary_key:
+      - id
+      columns:
+      - name: id
+        clickhouse_type: UInt64
+        nullable: false
+      - name: name
+        clickhouse_type: String
+        nullable: true
+      - name: raw_data
+        clickhouse_type: JSON
+        nullable: true
+        semantic_type: json
+    - entity: sources
+      api: crm
+      dbt_model: int_crm__sources_current
+      primary_key:
+      - id
+      columns:
+      - name: id
+        clickhouse_type: UInt64
+        nullable: false
+      - name: name
+        clickhouse_type: String
+        nullable: true
+      - name: external_id
+        clickhouse_type: String
+        nullable: true
+      - name: raw_data
+        clickhouse_type: JSON
+        nullable: true
+        semantic_type: json
+    - entity: tags
+      api: crm
+      dbt_model: int_crm__tags_current
+      primary_key:
+      - entity_type
+      - id
+      columns:
+      - name: id
+        clickhouse_type: UInt64
+        nullable: false
+      - name: entity_type
+        clickhouse_type: String
+        nullable: false
+      - name: name
+        clickhouse_type: String
+        nullable: true
+      - name: color
+        clickhouse_type: String
+        nullable: true
+      - name: raw_data
+        clickhouse_type: JSON
+        nullable: true
+        semantic_type: json
+    - entity: custom_fields
+      api: crm
+      dbt_model: int_crm__custom_fields_current
+      primary_key:
+      - entity_type
+      - id
+      columns:
+      - name: id
+        clickhouse_type: UInt64
+        nullable: false
+      - name: entity_type
+        clickhouse_type: String
+        nullable: false
+      - name: name
+        clickhouse_type: String
+        nullable: true
+      - name: code
+        clickhouse_type: String
+        nullable: true
+      - name: type
+        clickhouse_type: String
+        nullable: true
+      - name: sort
+        clickhouse_type: Int32
+        nullable: true
+      - name: is_api_only
+        clickhouse_type: String
+        nullable: true
+      - name: raw_data
+        clickhouse_type: JSON
+        nullable: true
+        semantic_type: json
+    - entity: catalogs
+      api: crm
+      dbt_model: int_crm__catalogs_current
+      primary_key:
+      - id
+      columns:
+      - name: id
+        clickhouse_type: UInt64
+        nullable: false
+      - name: name
+        clickhouse_type: String
+        nullable: true
+      - name: type
+        clickhouse_type: String
+        nullable: true
+      - name: can_add_elements
+        clickhouse_type: String
+        nullable: true
+      - name: can_link_multiple
+        clickhouse_type: String
+        nullable: true
+      - name: raw_data
+        clickhouse_type: JSON
+        nullable: true
+        semantic_type: json
+    - entity: contacts
+      api: crm
+      dbt_model: int_crm__contacts_current
+      primary_key:
+      - id
+      order_column: updated_at
+      columns:
+      - name: id
+        clickhouse_type: UInt64
+        nullable: false
+      - name: name
+        clickhouse_type: String
+        nullable: true
+      - name: first_name
+        clickhouse_type: String
+        nullable: true
+      - name: last_name
+        clickhouse_type: String
+        nullable: true
+      - name: responsible_user_id
+        clickhouse_type: UInt64
+        nullable: true
+      - name: group_id
+        clickhouse_type: UInt64
+        nullable: true
+      - name: created_by
+        clickhouse_type: UInt64
+        nullable: true
+      - name: updated_by
+        clickhouse_type: UInt64
+        nullable: true
+      - name: created_at
+        clickhouse_type: DateTime64(3)
+        nullable: true
+      - name: updated_at
+        clickhouse_type: DateTime64(3)
+        nullable: true
+      - name: is_deleted
+        clickhouse_type: String
+        nullable: true
+      - name: account_id
+        clickhouse_type: UInt64
+        nullable: true
+      - name: phone
+        clickhouse_type: String
+        nullable: true
+      - name: email
+        clickhouse_type: String
+        nullable: true
+      - name: custom_fields_values
+        clickhouse_type: JSON
+        nullable: true
+        semantic_type: json
+      - name: tags
+        clickhouse_type: JSON
+        nullable: true
+        semantic_type: json
+      - name: leads
+        clickhouse_type: JSON
+        nullable: true
+        semantic_type: json
+      - name: companies
+        clickhouse_type: JSON
+        nullable: true
+        semantic_type: json
+      - name: raw_data
+        clickhouse_type: JSON
+        nullable: true
+        semantic_type: json
+    - entity: tasks
+      api: crm
+      dbt_model: int_crm__tasks_current
+      primary_key:
+      - id
+      order_column: updated_at
+      columns:
+      - name: id
+        clickhouse_type: UInt64
+        nullable: false
+      - name: created_by
+        clickhouse_type: UInt64
+        nullable: true
+      - name: updated_by
+        clickhouse_type: UInt64
+        nullable: true
+      - name: created_at
+        clickhouse_type: DateTime64(3)
+        nullable: true
+      - name: updated_at
+        clickhouse_type: DateTime64(3)
+        nullable: true
+      - name: responsible_user_id
+        clickhouse_type: UInt64
+        nullable: true
+      - name: group_id
+        clickhouse_type: UInt64
+        nullable: true
+      - name: entity_id
+        clickhouse_type: UInt64
+        nullable: true
+      - name: entity_type
+        clickhouse_type: String
+        nullable: true
+      - name: is_completed
+        clickhouse_type: String
+        nullable: true
+      - name: task_type_id
+        clickhouse_type: UInt64
+        nullable: true
+      - name: text
+        clickhouse_type: String
+        nullable: true
+      - name: duration
+        clickhouse_type: Int64
+        nullable: true
+      - name: complete_till
+        clickhouse_type: DateTime64(3)
+        nullable: true
+      - name: account_id
+        clickhouse_type: UInt64
+        nullable: true
+      - name: result_text
+        clickhouse_type: String
+        nullable: true
+      - name: raw_data
+        clickhouse_type: JSON
+        nullable: true
+        semantic_type: json
+    - entity: notes
+      api: crm
+      dbt_model: int_crm__notes_current
+      primary_key:
+      - id
+      order_column: updated_at
+      columns:
+      - name: id
+        clickhouse_type: UInt64
+        nullable: false
+      - name: entity_id
+        clickhouse_type: UInt64
+        nullable: true
+      - name: entity_type
+        clickhouse_type: String
+        nullable: true
+      - name: note_type
+        clickhouse_type: String
+        nullable: true
+      - name: text
+        clickhouse_type: String
+        nullable: true
+      - name: created_by
+        clickhouse_type: UInt64
+        nullable: true
+      - name: updated_by
+        clickhouse_type: UInt64
+        nullable: true
+      - name: created_at
+        clickhouse_type: DateTime64(3)
+        nullable: true
+      - name: updated_at
+        clickhouse_type: DateTime64(3)
+        nullable: true
+      - name: responsible_user_id
+        clickhouse_type: UInt64
+        nullable: true
+      - name: group_id
+        clickhouse_type: UInt64
+        nullable: true
+      - name: account_id
+        clickhouse_type: UInt64
+        nullable: true
+      - name: params
+        clickhouse_type: JSON
+        nullable: true
+        semantic_type: json
+      - name: raw_data
+        clickhouse_type: JSON
+        nullable: true
+        semantic_type: json
+    - entity: unsorted
+      api: crm
+      dbt_model: int_crm__unsorted_current
+      primary_key:
+      - uid
+      order_column: created_at
+      columns:
+      - name: uid
+        clickhouse_type: String
+        nullable: false
+      - name: source_uid
+        clickhouse_type: String
+        nullable: true
+      - name: category
+        clickhouse_type: String
+        nullable: true
+      - name: pipeline_id
+        clickhouse_type: UInt64
+        nullable: true
+      - name: created_at
+        clickhouse_type: DateTime64(3)
+        nullable: true
+      - name: account_id
+        clickhouse_type: UInt64
+        nullable: true
+      - name: raw_data
+        clickhouse_type: JSON
+        nullable: true
+        semantic_type: json
+    - entity: customers
+      api: crm
+      dbt_model: int_crm__customers_current
+      primary_key:
+      - id
+      order_column: updated_at
+      columns:
+      - name: id
+        clickhouse_type: UInt64
+        nullable: false
+      - name: name
+        clickhouse_type: String
+        nullable: true
+      - name: next_price
+        clickhouse_type: Int64
+        nullable: true
+      - name: next_date
+        clickhouse_type: DateTime64(3)
+        nullable: true
+      - name: responsible_user_id
+        clickhouse_type: UInt64
+        nullable: true
+      - name: status_id
+        clickhouse_type: UInt64
+        nullable: true
+      - name: periodicity
+        clickhouse_type: Int64
+        nullable: true
+      - name: created_by
+        clickhouse_type: UInt64
+        nullable: true
+      - name: updated_by
+        clickhouse_type: UInt64
+        nullable: true
+      - name: created_at
+        clickhouse_type: DateTime64(3)
+        nullable: true
+      - name: updated_at
+        clickhouse_type: DateTime64(3)
+        nullable: true
+      - name: account_id
+        clickhouse_type: UInt64
+        nullable: true
+      - name: ltv
+        clickhouse_type: Int64
+        nullable: true
+      - name: purchases_count
+        clickhouse_type: Int64
+        nullable: true
+      - name: average_check
+        clickhouse_type: Int64
+        nullable: true
+      - name: custom_fields_values
+        clickhouse_type: JSON
+        nullable: true
+        semantic_type: json
+      - name: tags
+        clickhouse_type: JSON
+        nullable: true
+        semantic_type: json
+      - name: raw_data
+        clickhouse_type: JSON
+        nullable: true
+        semantic_type: json
+    - entity: catalog_elements
+      api: crm
+      dbt_model: int_crm__catalog_elements_current
+      primary_key:
+      - id
+      order_column: updated_at
+      columns:
+      - name: id
+        clickhouse_type: UInt64
+        nullable: false
+      - name: catalog_id
+        clickhouse_type: UInt64
+        nullable: true
+      - name: name
+        clickhouse_type: String
+        nullable: true
+      - name: created_by
+        clickhouse_type: UInt64
+        nullable: true
+      - name: updated_by
+        clickhouse_type: UInt64
+        nullable: true
+      - name: created_at
+        clickhouse_type: DateTime64(3)
+        nullable: true
+      - name: updated_at
+        clickhouse_type: DateTime64(3)
+        nullable: true
+      - name: account_id
+        clickhouse_type: UInt64
+        nullable: true
+      - name: custom_fields_values
+        clickhouse_type: JSON
+        nullable: true
+        semantic_type: json
+      - name: raw_data
+        clickhouse_type: JSON
+        nullable: true
+        semantic_type: json
+  pbx:
+    schedule: 7 * * * *
+    source_timezone: UTC
+    entities:
+    - entity: calls
+      api: pbx
+      dbt_model: stg_pbx__calls
+      primary_key:
+      - entry_id
+      order_column: started_at
+      columns:
+      - name: entry_id
+        clickhouse_type: String
+        nullable: false
+      - name: started_at
+        clickhouse_type: DateTime64(3)
+        nullable: true
+      - name: context_type
+        clickhouse_type: String
+        nullable: true
+      - name: context_status
+        clickhouse_type: String
+        nullable: true
+      - name: caller_id
+        clickhouse_type: String
+        nullable: true
+      - name: caller_name
+        clickhouse_type: String
+        nullable: true
+      - name: caller_number
+        clickhouse_type: String
+        nullable: true
+      - name: called_number
+        clickhouse_type: String
+        nullable: true
+      - name: duration
+        clickhouse_type: Int64
+        nullable: true
+      - name: talk_duration
+        clickhouse_type: Int64
+        nullable: true
+      - name: context_init_type
+        clickhouse_type: String
+        nullable: true
+      - name: recall_status
+        clickhouse_type: String
+        nullable: true
+      - name: cost
+        clickhouse_type: Float64
+        nullable: true
+      - name: context_cost_full
+        clickhouse_type: Float64
+        nullable: true
+      - name: context_cost_tariff
+        clickhouse_type: Float64
+        nullable: true
+      - name: recording_ids
+        clickhouse_type: JSON
+        nullable: true
+        semantic_type: json
+      - name: period
+        clickhouse_type: String
+        nullable: true
+      - name: raw_data
+        clickhouse_type: JSON
+        nullable: true
+        semantic_type: json
+    - entity: users
+      api: pbx
+      dbt_model: int_pbx__users_current
+      primary_key:
+      - extension
+      columns:
+      - name: extension
+        clickhouse_type: String
+        nullable: false
+      - name: name
+        clickhouse_type: String
+        nullable: true
+      - name: email
+        clickhouse_type: String
+        nullable: true
+      - name: department
+        clickhouse_type: String
+        nullable: true
+      - name: position
+        clickhouse_type: String
+        nullable: true
+      - name: user_id
+        clickhouse_type: String
+        nullable: true
+      - name: access_role_id
+        clickhouse_type: String
+        nullable: true
+      - name: mobile
+        clickhouse_type: String
+        nullable: true
+      - name: groups
+        clickhouse_type: JSON
+        nullable: true
+        semantic_type: json
+      - name: sips
+        clickhouse_type: JSON
+        nullable: true
+        semantic_type: json
+      - name: raw_data
+        clickhouse_type: JSON
+        nullable: true
+        semantic_type: json
+    - entity: groups
+      api: pbx
+      dbt_model: int_pbx__groups_current
+      primary_key:
+      - group_id
+      columns:
+      - name: group_id
+        clickhouse_type: String
+        nullable: false
+      - name: name
+        clickhouse_type: String
+        nullable: true
+      - name: extension
+        clickhouse_type: String
+        nullable: true
+      - name: operators
+        clickhouse_type: JSON
+        nullable: true
+        semantic_type: json
+      - name: raw_data
+        clickhouse_type: JSON
+        nullable: true
+        semantic_type: json
+    - entity: numbers
+      api: pbx
+      dbt_model: int_pbx__numbers_current
+      primary_key:
+      - line_id
+      columns:
+      - name: line_id
+        clickhouse_type: String
+        nullable: false
+      - name: number
+        clickhouse_type: String
+        nullable: true
+      - name: name
+        clickhouse_type: String
+        nullable: true
+      - name: comment
+        clickhouse_type: String
+        nullable: true
+      - name: region
+        clickhouse_type: String
+        nullable: true
+      - name: schema_id
+        clickhouse_type: String
+        nullable: true
+      - name: schema_name
+        clickhouse_type: String
+        nullable: true
+      - name: raw_data
+        clickhouse_type: JSON
+        nullable: true
+        semantic_type: json
+    - entity: sip
+      api: pbx
+      dbt_model: int_pbx__sip_current
+      primary_key:
+      - login
+      columns:
+      - name: login
+        clickhouse_type: String
+        nullable: false
+      - name: user_id
+        clickhouse_type: String
+        nullable: true
+      - name: extension
+        clickhouse_type: String
+        nullable: true
+      - name: name
+        clickhouse_type: String
+        nullable: true
+      - name: raw_data
+        clickhouse_type: JSON
+        nullable: true
+        semantic_type: json
+    - entity: call_stats_basic
+      api: pbx
+      dbt_model: int_pbx__call_stats_basic_current
+      primary_key:
+      - entry_id
+      - from_extension
+      - to_extension
+      - started_at
+      order_column: started_at
+      columns:
+      - name: entry_id
+        clickhouse_type: String
+        nullable: true
+      - name: started_at
+        clickhouse_type: DateTime64(3)
+        nullable: true
+      - name: finish
+        clickhouse_type: String
+        nullable: true
+      - name: answer
+        clickhouse_type: String
+        nullable: true
+      - name: from_extension
+        clickhouse_type: String
+        nullable: true
+      - name: from_number
+        clickhouse_type: String
+        nullable: true
+      - name: to_extension
+        clickhouse_type: String
+        nullable: true
+      - name: to_number
+        clickhouse_type: String
+        nullable: true
+      - name: disconnect_reason
+        clickhouse_type: String
+        nullable: true
+      - name: line_number
+        clickhouse_type: String
+        nullable: true
+      - name: location
+        clickhouse_type: String
+        nullable: true
+      - name: records
+        clickhouse_type: String
+        nullable: true
+      - name: create_ts
+        clickhouse_type: String
+        nullable: true
+      - name: raw_data
+        clickhouse_type: JSON
+        nullable: true
+        semantic_type: json
+    - entity: deals
+      api: pbx
+      dbt_model: int_pbx__deals_current
+      primary_key:
+      - deal_id
+      columns:
+      - name: deal_id
+        clickhouse_type: String
+        nullable: false
+      - name: name
+        clickhouse_type: String
+        nullable: true
+      - name: description
+        clickhouse_type: String
+        nullable: true
+      - name: amount
+        clickhouse_type: Float64
+        nullable: true
+      - name: abonent_id
+        clickhouse_type: String
+        nullable: true
+      - name: contact_id
+        clickhouse_type: String
+        nullable: true
+      - name: funnel_id
+        clickhouse_type: String
+        nullable: true
+      - name: step_id
+        clickhouse_type: String
+        nullable: true
+      - name: status
+        clickhouse_type: String
+        nullable: true
+      - name: status_change_reason
+        clickhouse_type: String
+        nullable: true
+      - name: reason_comment
+        clickhouse_type: String
+        nullable: true
+      - name: custom_fields
+        clickhouse_type: JSON
+        nullable: true
+        semantic_type: json
+      - name: raw_data
+        clickhouse_type: JSON
+        nullable: true
+        semantic_type: json
+    - entity: tasks
+      api: pbx
+      dbt_model: int_pbx__tasks_current
+      primary_key:
+      - task_id
+      columns:
+      - name: task_id
+        clickhouse_type: String
+        nullable: false
+      - name: status
+        clickhouse_type: String
+        nullable: true
+      - name: event_type
+        clickhouse_type: String
+        nullable: true
+      - name: priority
+        clickhouse_type: String
+        nullable: true
+      - name: contact_id
+        clickhouse_type: String
+        nullable: true
+      - name: deal_id
+        clickhouse_type: String
+        nullable: true
+      - name: from_user_id
+        clickhouse_type: String
+        nullable: true
+      - name: to_user_id
+        clickhouse_type: String
+        nullable: true
+      - name: start_time
+        clickhouse_type: String
+        nullable: true
+      - name: raw_data
+        clickhouse_type: JSON
+        nullable: true
+        semantic_type: json
+    - entity: dialer_campaigns
+      api: pbx
+      dbt_model: int_pbx__dialer_campaigns_current
+      primary_key:
+      - campaign_id
+      columns:
+      - name: campaign_id
+        clickhouse_type: String
+        nullable: false
+      - name: name
+        clickhouse_type: String
+        nullable: true
+      - name: status
+        clickhouse_type: String
+        nullable: true
+      - name: priority
+        clickhouse_type: String
+        nullable: true
+      - name: line_id
+        clickhouse_type: String
+        nullable: true
+      - name: start_ts
+        clickhouse_type: String
+        nullable: true
+      - name: end_ts
+        clickhouse_type: String
+        nullable: true
+      - name: created_ts
+        clickhouse_type: String
+        nullable: true
+      - name: created_by_user_id
+        clickhouse_type: String
+        nullable: true
+      - name: tasks_count
+        clickhouse_type: Int64
+        nullable: true
+      - name: finished_tasks_count
+        clickhouse_type: Int64
+        nullable: true
+      - name: members
+        clickhouse_type: JSON
+        nullable: true
+        semantic_type: json
+      - name: operators
+        clickhouse_type: JSON
+        nullable: true
+        semantic_type: json
+      - name: raw_data
+        clickhouse_type: JSON
+        nullable: true
+        semantic_type: json
+    - entity: dialer_tasks
+      api: pbx
+      dbt_model: int_pbx__dialer_tasks_current
+      primary_key:
+      - task_id
+      columns:
+      - name: task_id
+        clickhouse_type: String
+        nullable: false
+      - name: campaign_id
+        clickhouse_type: String
+        nullable: true
+      - name: number
+        clickhouse_type: String
+        nullable: true
+      - name: name
+        clickhouse_type: String
+        nullable: true
+      - name: task_status
+        clickhouse_type: String
+        nullable: true
+      - name: operator_id
+        clickhouse_type: String
+        nullable: true
+      - name: attempts_count
+        clickhouse_type: Int64
+        nullable: true
+      - name: task_created
+        clickhouse_type: String
+        nullable: true
+      - name: task_updated
+        clickhouse_type: String
+        nullable: true
+      - name: raw_data
+        clickhouse_type: JSON
+        nullable: true
+        semantic_type: json
+  dialer:
+    schedule: '@hourly'
+    source_timezone: UTC
+    entities:
+    - entity: calls
+      api: dialer
+      dbt_model: stg_dialer__calls
+      primary_key:
+      - id
+      order_column: started_at
+      columns:
+      - name: id
+        clickhouse_type: UInt64
+        nullable: false
+      - name: started_at
+        clickhouse_type: DateTime64(3)
+        nullable: true
+      - name: region
+        clickhouse_type: String
+        nullable: true
+      - name: phone
+        clickhouse_type: String
+        nullable: true
+      - name: call_type
+        clickhouse_type: String
+        nullable: true
+      - name: call_type_code
+        clickhouse_type: String
+        nullable: true
+      - name: missed_reason
+        clickhouse_type: String
+        nullable: true
+      - name: duration
+        clickhouse_type: Int64
+        nullable: true
+      - name: recording_url
+        clickhouse_type: String
+        nullable: true
+      - name: source
+        clickhouse_type: String
+        nullable: true
+      - name: waiting_time
+        clickhouse_type: Int64
+        nullable: true
+      - name: waiting_on_line_time
+        clickhouse_type: Float64
+        nullable: true
+      - name: terminator
+        clickhouse_type: String
+        nullable: true
+      - name: cost
+        clickhouse_type: Float64
+        nullable: true
+      - name: duration_without_holding
+        clickhouse_type: Int64
+        nullable: true
+      - name: duration_holding
+        clickhouse_type: Int64
+        nullable: true
+      - name: duration_billed
+        clickhouse_type: Float64
+        nullable: true
+      - name: user_id
+        clickhouse_type: UInt64
+        nullable: true
+      - name: user_name
+        clickhouse_type: String
+        nullable: true
+      - name: organization
+        clickhouse_type: JSON
+        nullable: true
+        semantic_type: json
+      - name: lead
+        clickhouse_type: JSON
+        nullable: true
+        semantic_type: json
+      - name: scenario
+        clickhouse_type: JSON
+        nullable: true
+        semantic_type: json
+      - name: scenario_result
+        clickhouse_type: JSON
+        nullable: true
+        semantic_type: json
+      - name: scenario_result_group
+        clickhouse_type: JSON
+        nullable: true
+        semantic_type: json
+      - name: main_lead
+        clickhouse_type: JSON
+        nullable: true
+        semantic_type: json
+      - name: event
+        clickhouse_type: JSON
+        nullable: true
+        semantic_type: json
+      - name: call_project
+        clickhouse_type: JSON
+        nullable: true
+        semantic_type: json
+      - name: transfer_initiator
+        clickhouse_type: String
+        nullable: true
+      - name: transfer_initiator_id
+        clickhouse_type: Int64
+        nullable: true
+      - name: external_access_id
+        clickhouse_type: String
+        nullable: true
+      - name: reason
+        clickhouse_type: String
+        nullable: true
+      - name: raw_data
+        clickhouse_type: JSON
+        nullable: true
+        semantic_type: json
+    - entity: hours
+      api: dialer
+      dbt_model: stg_dialer__hours
+      primary_key:
+      - date_h
+      - user_id
+      order_column: date_h
+      columns:
+      - name: date_h
+        clickhouse_type: DateTime64(3)
+        nullable: false
+      - name: date
+        clickhouse_type: Date
+        nullable: true
+      - name: user_id
+        clickhouse_type: UInt64
+        nullable: false
+      - name: full_name
+        clickhouse_type: String
+        nullable: true
+      - name: email
+        clickhouse_type: String
+        nullable: true
+      - name: status_normal
+        clickhouse_type: Int64
+        nullable: true
+      - name: status_ringing
+        clickhouse_type: Int64
+        nullable: true
+      - name: status_speaking
+        clickhouse_type: Int64
+        nullable: true
+      - name: status_wrapup
+        clickhouse_type: Int64
+        nullable: true
+      - name: status_away
+        clickhouse_type: Int64
+        nullable: true
+      - name: status_dnd
+        clickhouse_type: Int64
+        nullable: true
+      - name: status_accident
+        clickhouse_type: Int64
+        nullable: true
+      - name: status_offline
+        clickhouse_type: Int64
+        nullable: true
+      - name: performance_seconds
+        clickhouse_type: Int64
+        nullable: true
+      - name: performance_hours
+        clickhouse_type: Float64
+        nullable: true
+      - name: performance_occ
+        clickhouse_type: Float64
+        nullable: true

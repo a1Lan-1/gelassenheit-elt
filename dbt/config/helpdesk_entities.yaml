@@ -1,0 +1,1337 @@
+# schedule: default hourly at :00 MSK via fsd_entity_schedule(); per-entity override optional
+# source_timezone: MSK — Postgres timestamptz columns store Moscow wall clock (not UTC).
+entities:
+- entity: appeals
+  source_table: public.appeals
+  watermark_column: updated_at
+  primary_key:
+  - id
+  load_mode: upsert_current
+  json_columns:
+  - data
+  columns:
+  - name: id
+    clickhouse_type: UUID
+    nullable: false
+  - name: type
+    clickhouse_type: String
+    nullable: true
+  - name: source
+    clickhouse_type: String
+    nullable: true
+  - name: appeal_id
+    clickhouse_type: String
+    nullable: false
+  - name: companion_id
+    clickhouse_type: String
+    nullable: false
+  - name: account_id
+    clickhouse_type: String
+    nullable: true
+  - name: person_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: entity_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: foreign_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: foreign_table
+    clickhouse_type: String
+    nullable: true
+  - name: result_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: actual_date
+    clickhouse_type: DateTime64(3)
+    nullable: true
+  - name: record_link
+    clickhouse_type: String
+    nullable: true
+  - name: created_at
+    clickhouse_type: DateTime64(3)
+    nullable: false
+  - name: updated_at
+    clickhouse_type: DateTime64(3)
+    nullable: false
+  - name: deleted_at
+    clickhouse_type: DateTime64(3)
+    nullable: true
+  - name: parent_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: duration
+    clickhouse_type: Int32
+    nullable: true
+  - name: vendor_code
+    clickhouse_type: String
+    nullable: true
+  - name: comment
+    clickhouse_type: String
+    nullable: true
+  - name: user_id
+    clickhouse_type: UUID
+    nullable: true
+- entity: comments
+  source_table: public.comments
+  watermark_column: updated_at
+  primary_key:
+  - id
+  load_mode: upsert_current
+  json_columns:
+  - notify
+  columns:
+  - name: id
+    clickhouse_type: UUID
+    nullable: false
+  - name: foreign_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: table_name
+    clickhouse_type: String
+    nullable: true
+  - name: text
+    clickhouse_type: String
+    nullable: true
+  - name: user_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: created_at
+    clickhouse_type: DateTime64(3)
+    nullable: false
+  - name: updated_at
+    clickhouse_type: DateTime64(3)
+    nullable: false
+  - name: deleted_at
+    clickhouse_type: DateTime64(3)
+    nullable: true
+  - name: notify
+    clickhouse_type: JSON
+    nullable: true
+    semantic_type: json
+  - name: person_id
+    clickhouse_type: UUID
+    nullable: true
+- entity: config_items
+  alias: ci
+  source_table: public.config_items
+  watermark_column: updated_at
+  primary_key:
+  - id
+  load_mode: upsert_current
+  json_columns:
+  - data
+  columns:
+  - name: id
+    clickhouse_type: UUID
+    nullable: false
+  - name: sku_id
+    clickhouse_type: UUID
+    nullable: false
+  - name: place_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: parent_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: item_id
+    clickhouse_type: UUID
+    nullable: false
+  - name: quantity
+    clickhouse_type: Int32
+    nullable: false
+  - name: cost
+    clickhouse_type: Float64
+    nullable: false
+  - name: responsible_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: activation_date
+    clickhouse_type: DateTime64(3)
+    nullable: true
+  - name: validity_date
+    clickhouse_type: DateTime64(3)
+    nullable: true
+  - name: inventory_number
+    clickhouse_type: String
+    nullable: true
+  - name: comment
+    clickhouse_type: String
+    nullable: true
+  - name: serial_number
+    clickhouse_type: String
+    nullable: true
+  - name: data
+    clickhouse_type: JSON
+    nullable: true
+    semantic_type: json
+  - name: expired_at
+    clickhouse_type: DateTime64(3)
+    nullable: true
+  - name: created_at
+    clickhouse_type: DateTime64(3)
+    nullable: false
+  - name: updated_at
+    clickhouse_type: DateTime64(3)
+    nullable: false
+  - name: deleted_at
+    clickhouse_type: DateTime64(3)
+    nullable: true
+  - name: waybill_in
+    clickhouse_type: UUID
+    nullable: false
+  - name: waybill_out
+    clickhouse_type: UUID
+    nullable: true
+  - name: state
+    clickhouse_type: String
+    nullable: true
+  - name: weight
+    clickhouse_type: Float64
+    nullable: false
+  - name: supplier
+    clickhouse_type: String
+    nullable: true
+  - name: responsible_group_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: pmsr_id
+    clickhouse_type: UUID
+    nullable: true
+- entity: entities
+  source_table: public.entities
+  watermark_column: updated_at
+  primary_key:
+  - id
+  load_mode: upsert_current
+  columns:
+  - name: id
+    clickhouse_type: UUID
+    nullable: false
+  - name: external_id
+    clickhouse_type: String
+    nullable: true
+  - name: parent_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: prefix
+    clickhouse_type: String
+    nullable: true
+  - name: name
+    clickhouse_type: String
+    nullable: true
+  - name: short_name
+    clickhouse_type: String
+    nullable: true
+  - name: legal_address
+    clickhouse_type: String
+    nullable: true
+  - name: actual_address
+    clickhouse_type: String
+    nullable: true
+  - name: inn
+    clickhouse_type: String
+    nullable: true
+  - name: kpp
+    clickhouse_type: String
+    nullable: true
+  - name: ogrn
+    clickhouse_type: String
+    nullable: true
+  - name: okpo
+    clickhouse_type: String
+    nullable: true
+  - name: okato
+    clickhouse_type: String
+    nullable: true
+  - name: certificate_number
+    clickhouse_type: String
+    nullable: true
+  - name: created_at
+    clickhouse_type: DateTime64(3)
+    nullable: false
+  - name: updated_at
+    clickhouse_type: DateTime64(3)
+    nullable: false
+  - name: deleted_at
+    clickhouse_type: DateTime64(3)
+    nullable: true
+  - name: type
+    clickhouse_type: String
+    nullable: true
+  - name: comment
+    clickhouse_type: String
+    nullable: true
+  - name: type_id
+    clickhouse_type: UUID
+    nullable: true
+- entity: history
+  source_table: public.history
+  watermark_column: updated_at
+  primary_key:
+  - id
+  load_mode: upsert_current
+  extract_sql: "SELECT\n  id, user_id, action_type, object_type, object_id,\n  old_values::text\
+    \ AS old_values,\n  new_values::text AS new_values,\n  fields::text AS fields,\n\
+    \  created_at, updated_at, deleted_at\nFROM public.history\nWHERE updated_at >\
+    \ %(watermark)s\n  AND object_type IN ('appeals','comments','tickets','tasks','ticket_status','task_status')\n\
+    ORDER BY updated_at, id\n"
+  columns:
+  - name: id
+    clickhouse_type: UUID
+    nullable: false
+  - name: user_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: action_type
+    clickhouse_type: String
+    nullable: false
+  - name: object_type
+    clickhouse_type: String
+    nullable: false
+  - name: object_id
+    clickhouse_type: UUID
+    nullable: false
+  - name: old_values
+    clickhouse_type: JSON
+    nullable: true
+    semantic_type: json
+  - name: new_values
+    clickhouse_type: JSON
+    nullable: true
+    semantic_type: json
+  - name: fields
+    clickhouse_type: JSON
+    nullable: true
+    semantic_type: json
+  - name: created_at
+    clickhouse_type: DateTime64(3)
+    nullable: false
+  - name: updated_at
+    clickhouse_type: DateTime64(3)
+    nullable: false
+  - name: deleted_at
+    clickhouse_type: DateTime64(3)
+    nullable: true
+- entity: persons
+  source_table: public.persons
+  watermark_column: updated_at
+  primary_key:
+  - id
+  load_mode: upsert_current
+  columns:
+  - name: id
+    clickhouse_type: UUID
+    nullable: false
+  - name: foreign_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: table_name
+    clickhouse_type: String
+    nullable: true
+  - name: external_id
+    clickhouse_type: String
+    nullable: true
+  - name: first_name
+    clickhouse_type: String
+    nullable: true
+  - name: middle_name
+    clickhouse_type: String
+    nullable: true
+  - name: last_name
+    clickhouse_type: String
+    nullable: true
+  - name: position
+    clickhouse_type: String
+    nullable: true
+  - name: created_at
+    clickhouse_type: DateTime64(3)
+    nullable: false
+  - name: updated_at
+    clickhouse_type: DateTime64(3)
+    nullable: false
+  - name: deleted_at
+    clickhouse_type: DateTime64(3)
+    nullable: true
+  - name: role
+    clickhouse_type: String
+    nullable: true
+  - name: working_schedule
+    clickhouse_type: String
+    nullable: true
+  - name: authority_id
+    clickhouse_type: UUID
+    nullable: true
+- entity: places
+  source_table: public.places
+  watermark_column: updated_at
+  primary_key:
+  - id
+  load_mode: upsert_current
+  json_columns:
+  - data
+  columns:
+  - name: id
+    clickhouse_type: UUID
+    nullable: false
+  - name: external_id
+    clickhouse_type: String
+    nullable: true
+  - name: entity_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: region
+    clickhouse_type: String
+    nullable: true
+  - name: city
+    clickhouse_type: String
+    nullable: true
+  - name: address
+    clickhouse_type: String
+    nullable: true
+  - name: fias_code
+    clickhouse_type: String
+    nullable: true
+  - name: latitude
+    clickhouse_type: Float64
+    nullable: true
+  - name: longtitude
+    clickhouse_type: Float64
+    nullable: true
+  - name: description
+    clickhouse_type: String
+    nullable: true
+  - name: responsible_person_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: data
+    clickhouse_type: JSON
+    nullable: true
+    semantic_type: json
+  - name: created_at
+    clickhouse_type: DateTime64(3)
+    nullable: false
+  - name: updated_at
+    clickhouse_type: DateTime64(3)
+    nullable: false
+  - name: deleted_at
+    clickhouse_type: DateTime64(3)
+    nullable: true
+  - name: type
+    clickhouse_type: String
+    nullable: false
+  - name: postal
+    clickhouse_type: Int32
+    nullable: true
+  - name: area
+    clickhouse_type: String
+    nullable: true
+  - name: street
+    clickhouse_type: String
+    nullable: true
+  - name: house
+    clickhouse_type: String
+    nullable: true
+  - name: room
+    clickhouse_type: String
+    nullable: true
+  - name: post_delivery_valid
+    clickhouse_type: Bool
+    nullable: false
+  - name: time_zone
+    clickhouse_type: String
+    nullable: true
+- entity: services
+  source_table: public.services
+  watermark_column: updated_at
+  primary_key:
+  - id
+  load_mode: upsert_current
+  json_columns:
+  - data
+  columns:
+  - name: id
+    clickhouse_type: UUID
+    nullable: false
+  - name: name
+    clickhouse_type: String
+    nullable: false
+  - name: code
+    clickhouse_type: String
+    nullable: true
+  - name: description
+    clickhouse_type: String
+    nullable: true
+  - name: data
+    clickhouse_type: JSON
+    nullable: true
+    semantic_type: json
+  - name: user_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: user_group_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: created_at
+    clickhouse_type: DateTime64(3)
+    nullable: false
+  - name: updated_at
+    clickhouse_type: DateTime64(3)
+    nullable: false
+  - name: deleted_at
+    clickhouse_type: DateTime64(3)
+    nullable: true
+  - name: parent_id
+    clickhouse_type: UUID
+    nullable: true
+- entity: sku
+  source_table: public.sku
+  watermark_column: updated_at
+  primary_key:
+  - id
+  load_mode: upsert_current
+  json_columns:
+  - data
+  columns:
+  - name: id
+    clickhouse_type: UUID
+    nullable: false
+  - name: type
+    clickhouse_type: String
+    nullable: false
+  - name: manufacturer
+    clickhouse_type: String
+    nullable: true
+  - name: model
+    clickhouse_type: String
+    nullable: true
+  - name: version
+    clickhouse_type: String
+    nullable: true
+  - name: unit
+    clickhouse_type: String
+    nullable: false
+  - name: validity_period
+    clickhouse_type: Int32
+    nullable: true
+  - name: data
+    clickhouse_type: JSON
+    nullable: true
+    semantic_type: json
+  - name: created_at
+    clickhouse_type: DateTime64(3)
+    nullable: false
+  - name: updated_at
+    clickhouse_type: DateTime64(3)
+    nullable: false
+  - name: deleted_at
+    clickhouse_type: DateTime64(3)
+    nullable: true
+  - name: weight
+    clickhouse_type: Float64
+    nullable: false
+  - name: vendor_code
+    clickhouse_type: String
+    nullable: true
+  - name: name
+    clickhouse_type: String
+    nullable: true
+  - name: label_template
+    clickhouse_type: UUID
+    nullable: true
+  - name: is_digital
+    clickhouse_type: Bool
+    nullable: false
+  - name: cost
+    clickhouse_type: Float64
+    nullable: false
+  - name: is_package
+    clickhouse_type: Bool
+    nullable: false
+- entity: statuses
+  source_table: public.statuses
+  watermark_column: updated_at
+  primary_key:
+  - id
+  load_mode: upsert_current
+  json_columns:
+  - data
+  columns:
+  - name: id
+    clickhouse_type: UUID
+    nullable: false
+  - name: external_id
+    clickhouse_type: String
+    nullable: true
+  - name: name
+    clickhouse_type: String
+    nullable: false
+  - name: code
+    clickhouse_type: String
+    nullable: false
+  - name: description
+    clickhouse_type: String
+    nullable: true
+  - name: data
+    clickhouse_type: JSON
+    nullable: true
+    semantic_type: json
+  - name: created_at
+    clickhouse_type: DateTime64(3)
+    nullable: false
+  - name: updated_at
+    clickhouse_type: DateTime64(3)
+    nullable: false
+  - name: deleted_at
+    clickhouse_type: DateTime64(3)
+    nullable: true
+  - name: sla
+    clickhouse_type: Bool
+    nullable: true
+  - name: table_name
+    clickhouse_type: String
+    nullable: true
+  - name: table_type
+    clickhouse_type: String
+    nullable: true
+  - name: order
+    clickhouse_type: Int32
+    nullable: true
+  - name: default
+    clickhouse_type: Bool
+    nullable: false
+- entity: task_config_item
+  alias: task_ci
+  source_table: public.task_config_item
+  watermark_column: updated_at
+  primary_key:
+  - id
+  load_mode: upsert_current
+  json_columns:
+  - notify
+  columns:
+  - name: id
+    clickhouse_type: UUID
+    nullable: false
+  - name: task_id
+    clickhouse_type: UUID
+    nullable: false
+  - name: config_item_id
+    clickhouse_type: UUID
+    nullable: false
+  - name: created_at
+    clickhouse_type: DateTime64(3)
+    nullable: false
+  - name: updated_at
+    clickhouse_type: DateTime64(3)
+    nullable: false
+  - name: deleted_at
+    clickhouse_type: DateTime64(3)
+    nullable: true
+- entity: task_status
+  source_table: public.task_status
+  watermark_column: updated_at
+  primary_key:
+  - id
+  load_mode: upsert_current
+  json_columns:
+  - data
+  columns:
+  - name: id
+    clickhouse_type: UUID
+    nullable: false
+  - name: status_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: task_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: actual
+    clickhouse_type: Bool
+    nullable: true
+  - name: user_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: data
+    clickhouse_type: JSON
+    nullable: true
+    semantic_type: json
+  - name: created_at
+    clickhouse_type: DateTime64(3)
+    nullable: false
+  - name: updated_at
+    clickhouse_type: DateTime64(3)
+    nullable: false
+  - name: deleted_at
+    clickhouse_type: DateTime64(3)
+    nullable: true
+  - name: date_begin
+    clickhouse_type: DateTime64(3)
+    nullable: true
+  - name: date_end
+    clickhouse_type: DateTime64(3)
+    nullable: true
+  - name: comment
+    clickhouse_type: String
+    nullable: true
+- entity: tasks
+  source_table: public.tasks
+  watermark_column: updated_at
+  primary_key:
+  - id
+  load_mode: upsert_current
+  json_columns:
+  - data
+  columns:
+  - name: id
+    clickhouse_type: UUID
+    nullable: false
+  - name: case_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: description
+    clickhouse_type: String
+    nullable: true
+  - name: user_group_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: responsible_user_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: person_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: place_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: ticket_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: data
+    clickhouse_type: JSON
+    nullable: true
+    semantic_type: json
+  - name: deadline
+    clickhouse_type: DateTime64(3)
+    nullable: true
+  - name: plan_start_date
+    clickhouse_type: DateTime64(3)
+    nullable: true
+  - name: plan_end_date
+    clickhouse_type: DateTime64(3)
+    nullable: true
+  - name: created_at
+    clickhouse_type: DateTime64(3)
+    nullable: false
+  - name: updated_at
+    clickhouse_type: DateTime64(3)
+    nullable: false
+  - name: deleted_at
+    clickhouse_type: DateTime64(3)
+    nullable: true
+  - name: status_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: number
+    clickhouse_type: Int32
+    nullable: false
+  - name: name
+    clickhouse_type: String
+    nullable: true
+  - name: closure_code
+    clickhouse_type: UUID
+    nullable: true
+  - name: ext_number
+    clickhouse_type: String
+    nullable: true
+  - name: actual_status_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: resolved_status_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: partner_delivery
+    clickhouse_type: Bool
+    nullable: false
+  - name: last_comment_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: closed_status_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: client_bill_sum
+    clickhouse_type: Decimal(12,2)
+    nullable: true
+  - name: supplier_bill_sum
+    clickhouse_type: Decimal(12,2)
+    nullable: true
+  - name: last_todo_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: partner_pickup_date
+    clickhouse_type: DateTime64(3)
+    nullable: true
+  - name: mass_type
+    clickhouse_type: String
+    nullable: true
+  - name: mass_head_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: priority
+    clickhouse_type: Int32
+    nullable: true
+  - name: partner_code
+    clickhouse_type: String
+    nullable: true
+  - name: vendor
+    clickhouse_type: String
+    nullable: true
+- entity: ticket_cases
+  alias: cases
+  source_table: public.ticket_cases
+  watermark_column: updated_at
+  primary_key:
+  - id
+  load_mode: upsert_current
+  columns:
+  - name: id
+    clickhouse_type: UUID
+    nullable: false
+  - name: name
+    clickhouse_type: String
+    nullable: false
+  - name: code
+    clickhouse_type: String
+    nullable: false
+  - name: description
+    clickhouse_type: String
+    nullable: true
+  - name: data
+    clickhouse_type: JSON
+    nullable: true
+    semantic_type: json
+  - name: created_at
+    clickhouse_type: DateTime64(3)
+    nullable: true
+  - name: updated_at
+    clickhouse_type: DateTime64(3)
+    nullable: false
+  - name: deleted_at
+    clickhouse_type: DateTime64(3)
+    nullable: true
+- entity: ticket_categories
+  alias: categories
+  source_table: public.ticket_categories
+  watermark_column: updated_at
+  primary_key:
+  - id
+  load_mode: upsert_current
+  json_columns:
+  - data
+  columns:
+  - name: id
+    clickhouse_type: UUID
+    nullable: false
+  - name: parent_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: name
+    clickhouse_type: String
+    nullable: true
+  - name: code
+    clickhouse_type: String
+    nullable: false
+  - name: description
+    clickhouse_type: String
+    nullable: true
+  - name: data
+    clickhouse_type: JSON
+    nullable: true
+    semantic_type: json
+  - name: created_at
+    clickhouse_type: DateTime64(3)
+    nullable: false
+  - name: updated_at
+    clickhouse_type: DateTime64(3)
+    nullable: false
+  - name: deleted_at
+    clickhouse_type: DateTime64(3)
+    nullable: true
+- entity: ticket_channels
+  alias: channels
+  source_table: public.ticket_channels
+  watermark_column: updated_at
+  primary_key:
+  - id
+  load_mode: upsert_current
+  json_columns:
+  - data
+  columns:
+  - name: id
+    clickhouse_type: UUID
+    nullable: false
+  - name: name
+    clickhouse_type: String
+    nullable: false
+  - name: code
+    clickhouse_type: String
+    nullable: true
+  - name: created_at
+    clickhouse_type: DateTime64(3)
+    nullable: false
+  - name: updated_at
+    clickhouse_type: DateTime64(3)
+    nullable: false
+  - name: deleted_at
+    clickhouse_type: DateTime64(3)
+    nullable: true
+- entity: ticket_config_item
+  alias: ticket_ci
+  source_table: public.ticket_config_item
+  watermark_column: updated_at
+  primary_key:
+  - id
+  load_mode: upsert_current
+  json_columns:
+  - notify
+  columns:
+  - name: id
+    clickhouse_type: UUID
+    nullable: false
+  - name: ticket_id
+    clickhouse_type: UUID
+    nullable: false
+  - name: config_item_id
+    clickhouse_type: UUID
+    nullable: false
+  - name: operation
+    clickhouse_type: String
+    nullable: false
+  - name: created_at
+    clickhouse_type: DateTime64(3)
+    nullable: false
+  - name: updated_at
+    clickhouse_type: DateTime64(3)
+    nullable: false
+  - name: deleted_at
+    clickhouse_type: DateTime64(3)
+    nullable: true
+- entity: ticket_status
+  alias: statuses_history
+  source_table: public.ticket_status
+  watermark_column: updated_at
+  primary_key:
+  - id
+  load_mode: upsert_current
+  json_columns:
+  - data
+  columns:
+  - name: id
+    clickhouse_type: UUID
+    nullable: false
+  - name: status_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: ticket_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: user_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: data
+    clickhouse_type: JSON
+    nullable: true
+    semantic_type: json
+  - name: actual
+    clickhouse_type: Bool
+    nullable: true
+  - name: date_begin
+    clickhouse_type: DateTime64(3)
+    nullable: false
+  - name: date_end
+    clickhouse_type: DateTime64(3)
+    nullable: true
+  - name: created_at
+    clickhouse_type: DateTime64(3)
+    nullable: false
+  - name: updated_at
+    clickhouse_type: DateTime64(3)
+    nullable: false
+  - name: deleted_at
+    clickhouse_type: DateTime64(3)
+    nullable: true
+  - name: comment
+    clickhouse_type: String
+    nullable: true
+- entity: tickets
+  source_table: public.tickets
+  watermark_column: updated_at
+  primary_key:
+  - id
+  load_mode: upsert_current
+  json_columns:
+  - data
+  fillna:
+    case: no case
+  columns:
+  - name: id
+    clickhouse_type: UUID
+    nullable: false
+  - name: parent_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: entity_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: description
+    clickhouse_type: String
+    nullable: true
+  - name: ticket_category_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: person_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: place_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: data
+    clickhouse_type: JSON
+    nullable: true
+    semantic_type: json
+  - name: created_at
+    clickhouse_type: DateTime64(3)
+    nullable: false
+  - name: updated_at
+    clickhouse_type: DateTime64(3)
+    nullable: false
+  - name: deleted_at
+    clickhouse_type: DateTime64(3)
+    nullable: true
+  - name: service_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: contract_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: time_zone
+    clickhouse_type: String
+    nullable: true
+  - name: status_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: graph_group_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: case
+    clickhouse_type: String
+    nullable: true
+  - name: title
+    clickhouse_type: String
+    nullable: true
+  - name: channel
+    clickhouse_type: String
+    nullable: true
+  - name: priority
+    clickhouse_type: Int32
+    nullable: true
+  - name: impact
+    clickhouse_type: Int32
+    nullable: true
+  - name: urgency
+    clickhouse_type: Int32
+    nullable: true
+  - name: number
+    clickhouse_type: Int32
+    nullable: false
+  - name: user_group_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: responsible_user_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: closure_code
+    clickhouse_type: UUID
+    nullable: true
+  - name: deadline
+    clickhouse_type: DateTime64(3)
+    nullable: true
+  - name: ext_number
+    clickhouse_type: String
+    nullable: true
+  - name: actual_status_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: last_comment_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: closed_status_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: client_bill_sum
+    clickhouse_type: Decimal(12,2)
+    nullable: true
+  - name: supplier_bill_sum
+    clickhouse_type: Decimal(12,2)
+    nullable: true
+  - name: last_todo_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: resolved_status_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: bpm_code
+    clickhouse_type: String
+    nullable: true
+  - name: mass_type
+    clickhouse_type: String
+    nullable: true
+  - name: mass_head_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: status_data_collection_at
+    clickhouse_type: DateTime64(3)
+    nullable: true
+  - name: status_device_reconfiguration_at
+    clickhouse_type: DateTime64(3)
+    nullable: true
+  - name: status_wating_of_delivery_to_at
+    clickhouse_type: DateTime64(3)
+    nullable: true
+  - name: status_remote_activation_at
+    clickhouse_type: DateTime64(3)
+    nullable: true
+  - name: status_return_approval_at
+    clickhouse_type: DateTime64(3)
+    nullable: true
+  - name: status_wating_of_delivery_from_at
+    clickhouse_type: DateTime64(3)
+    nullable: true
+  - name: status_signing_acts_at
+    clickhouse_type: DateTime64(3)
+    nullable: true
+  - name: status_verification_of_acts_at
+    clickhouse_type: DateTime64(3)
+    nullable: true
+  - name: status_work_complited_at
+    clickhouse_type: DateTime64(3)
+    nullable: true
+  - name: status_received_for_service_center_at
+    clickhouse_type: DateTime64(3)
+    nullable: true
+  - name: status_device_activation_at
+    clickhouse_type: DateTime64(3)
+    nullable: true
+  - name: crpt_state
+    clickhouse_type: String
+    nullable: true
+  - name: status_cant_calling_at
+    clickhouse_type: DateTime64(3)
+    nullable: true
+  - name: ticket_case_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: user_group_cycle_count
+    clickhouse_type: Int32
+    nullable: true
+  - name: channel_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: partner_code
+    clickhouse_type: String
+    nullable: true
+- entity: types
+  source_table: public.types
+  watermark_column: updated_at
+  primary_key:
+  - id
+  load_mode: upsert_current
+  json_columns:
+  - notify
+  columns:
+  - name: id
+    clickhouse_type: UUID
+    nullable: false
+  - name: name
+    clickhouse_type: String
+    nullable: false
+  - name: code
+    clickhouse_type: String
+    nullable: false
+  - name: table_name
+    clickhouse_type: String
+    nullable: false
+  - name: table_type
+    clickhouse_type: String
+    nullable: true
+  - name: description
+    clickhouse_type: String
+    nullable: true
+  - name: created_at
+    clickhouse_type: DateTime64(3)
+    nullable: false
+  - name: updated_at
+    clickhouse_type: DateTime64(3)
+    nullable: false
+  - name: deleted_at
+    clickhouse_type: DateTime64(3)
+    nullable: true
+- entity: user_groups
+  source_table: public.user_groups
+  watermark_column: updated_at
+  primary_key:
+  - id
+  load_mode: upsert_current
+  json_columns:
+  - data
+  columns:
+  - name: id
+    clickhouse_type: UUID
+    nullable: false
+  - name: data
+    clickhouse_type: JSON
+    nullable: true
+    semantic_type: json
+  - name: type
+    clickhouse_type: String
+    nullable: true
+  - name: name
+    clickhouse_type: String
+    nullable: true
+  - name: created_at
+    clickhouse_type: DateTime64(3)
+    nullable: false
+  - name: updated_at
+    clickhouse_type: DateTime64(3)
+    nullable: false
+  - name: deleted_at
+    clickhouse_type: DateTime64(3)
+    nullable: true
+  - name: entity_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: document_flow_name
+    clickhouse_type: String
+    nullable: true
+  - name: document_flow
+    clickhouse_type: Bool
+    nullable: true
+  - name: vat_included
+    clickhouse_type: Bool
+    nullable: true
+  - name: partner_id
+    clickhouse_type: UUID
+    nullable: true
+  - name: partner_relation_code
+    clickhouse_type: String
+    nullable: true
+- entity: user_groups_mapping
+  alias: ug_mapping
+  source_table: public.user_user_group
+  watermark_column: updated_at
+  primary_key:
+  - id
+  load_mode: upsert_current
+  columns:
+  - name: id
+    clickhouse_type: UUID
+    nullable: false
+  - name: user_id
+    clickhouse_type: UUID
+    nullable: false
+  - name: user_group_id
+    clickhouse_type: UUID
+    nullable: false
+  - name: type
+    clickhouse_type: String
+    nullable: true
+  - name: created_at
+    clickhouse_type: DateTime64(3)
+    nullable: false
+  - name: updated_at
+    clickhouse_type: DateTime64(3)
+    nullable: false
+  - name: deleted_at
+    clickhouse_type: DateTime64(3)
+    nullable: true
+- entity: user_types
+  source_table: public.user_types
+  watermark_column: updated_at
+  primary_key:
+  - id
+  load_mode: upsert_current
+  columns:
+  - name: id
+    clickhouse_type: UUID
+    nullable: false
+  - name: name
+    clickhouse_type: String
+    nullable: false
+  - name: created_at
+    clickhouse_type: DateTime64(3)
+    nullable: true
+  - name: updated_at
+    clickhouse_type: DateTime64(3)
+    nullable: false
+  - name: deleted_at
+    clickhouse_type: DateTime64(3)
+    nullable: true
+- entity: users
+  source_table: public.users
+  watermark_column: updated_at
+  primary_key:
+  - id
+  load_mode: upsert_current
+  json_columns:
+  - roles
+  columns:
+  - name: id
+    clickhouse_type: UUID
+    nullable: false
+  - name: user_name
+    clickhouse_type: String
+    nullable: false
+  - name: first_name
+    clickhouse_type: String
+    nullable: false
+  - name: middle_name
+    clickhouse_type: String
+    nullable: true
+  - name: last_name
+    clickhouse_type: String
+    nullable: false
+  - name: email
+    clickhouse_type: String
+    nullable: true
+  - name: phone
+    clickhouse_type: String
+    nullable: true
+  - name: created_at
+    clickhouse_type: DateTime64(3)
+    nullable: false
+  - name: updated_at
+    clickhouse_type: DateTime64(3)
+    nullable: false
+  - name: deleted_at
+    clickhouse_type: DateTime64(3)
+    nullable: true
+  - name: oauth_id
+    clickhouse_type: String
+    nullable: true
+  - name: temp_password
+    clickhouse_type: String
+    nullable: true
+  - name: type
+    clickhouse_type: String
+    nullable: true
+  - name: roles
+    clickhouse_type: JSON
+    nullable: true
+    semantic_type: json
+  - name: blocked
+    clickhouse_type: Bool
+    nullable: false
+  - name: type_id
+    clickhouse_type: UUID
+    nullable: true

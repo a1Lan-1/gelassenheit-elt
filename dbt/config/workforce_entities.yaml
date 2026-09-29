@@ -1,0 +1,128 @@
+# Google Sheets entities (mirror gelassenheit-airflow/dwh/config/gs_entities.yaml + dbt typing).
+entities:
+  - entity: esp_techsup_schedule
+    primary_key: [employee, date]
+    order_column: ingested_at
+    columns:
+      - {name: employee, clickhouse_type: String, nullable: false}
+      - {name: date, clickhouse_type: DateTime64(3), nullable: true}
+      - {name: hours, clickhouse_type: Float64, nullable: true}
+      - {name: loaded_at, clickhouse_type: DateTime64(3), nullable: true}
+      - {name: ingested_at, clickhouse_type: DateTime64(3), nullable: false}
+
+  - entity: akc1_techsup_schedule
+    primary_key: [date, employee]
+    order_column: ingested_at
+    columns:
+      - {name: date, clickhouse_type: Date, nullable: true}
+      - {name: employee, clickhouse_type: String, nullable: true}
+      - {name: hours, clickhouse_type: Float64, nullable: true}
+      - {name: ingested_at, clickhouse_type: DateTime64(3), nullable: false}
+
+  - entity: esp_techsup_activities
+    date_columns: [dt]
+    columns:
+      - {name: dt, clickhouse_type: DateTime64(3), nullable: true}
+      - {name: user_name, clickhouse_type: String, nullable: true}
+      - {name: activity_type, clickhouse_type: String, nullable: true}
+      - {name: count_hours, clickhouse_type: Float32, nullable: true}
+      - {name: ingested_at, clickhouse_type: DateTime64(3), nullable: false}
+
+  - entity: employee_audit_tickets_sec
+    primary_key: [date, employee, link, score]
+    order_column: ingested_at
+    columns:
+      - {name: date, clickhouse_type: Date, nullable: true}
+      - {name: link, clickhouse_type: String, nullable: true}
+      - {name: employee, clickhouse_type: String, nullable: true}
+      - {name: score, clickhouse_type: Float64, nullable: true}
+      - {name: ingested_at, clickhouse_type: DateTime64(3), nullable: false}
+
+  - entity: esp_techsup_employees
+    primary_key: [full_name]
+    order_column: ingested_at
+    columns:
+      - {name: full_name, clickhouse_type: String, nullable: false}
+      - {name: line, clickhouse_type: String, nullable: true}
+      - {name: supervisor, clickhouse_type: String, nullable: true}
+      - {name: hired_at, clickhouse_type: Date, nullable: true}
+      - {name: birthday, clickhouse_type: Date, nullable: true}
+      - {name: employment_status, clickhouse_type: String, nullable: true, semantic_type: employment_status}
+      - {name: ingested_at, clickhouse_type: DateTime64(3), nullable: false}
+
+  - entity: akc2_techsup_schedule
+    primary_key: [date, user_name]
+    order_column: ingested_at
+    columns:
+      - {name: date, clickhouse_type: Date, nullable: true}
+      - {name: user_name, clickhouse_type: String, nullable: true}
+      - {name: work_hours, clickhouse_type: Float64, nullable: true}
+      - {name: ingested_at, clickhouse_type: DateTime64(3), nullable: false}
+
+  - entity: akc_employees
+    primary_key: [email, full_name]
+    order_column: ingested_at
+    columns:
+      - {name: supervisor, clickhouse_type: String, nullable: true}
+      - {name: employment_status, clickhouse_type: String, nullable: true, semantic_type: employment_status}
+      - {name: group_name, clickhouse_type: String, nullable: true}
+      - {name: training_start_date, clickhouse_type: Date, nullable: true}
+      - {name: training_end_date, clickhouse_type: Date, nullable: true}
+      - {name: line_start_date, clickhouse_type: Date, nullable: true}
+      - {name: full_name, clickhouse_type: String, nullable: true}
+      - {name: email, clickhouse_type: String, nullable: true}
+      - {name: telegram_login, clickhouse_type: String, nullable: true}
+      - {name: mm_login, clickhouse_type: String, nullable: true}
+      - {name: phone, clickhouse_type: String, nullable: true}
+      - {name: birthday, clickhouse_type: Date, nullable: true}
+      - {name: ingested_at, clickhouse_type: DateTime64(3), nullable: false}
+
+  - entity: itm_msb_targets
+    primary_key: [target_name, employee_type, effective_date, target_value]
+    order_column: ingested_at
+    columns:
+      - {name: target_name, clickhouse_type: String, nullable: false}
+      - {name: employee_type, clickhouse_type: String, nullable: false}
+      - {name: effective_date, clickhouse_type: Date, nullable: false}
+      - {name: target_value, clickhouse_type: Float64, nullable: true}
+      - {name: weight, clickhouse_type: Float64, nullable: true}
+      - {name: ingested_at, clickhouse_type: DateTime64(3), nullable: false}
+
+  - entity: esp_test_results
+    primary_key: [name, dt]
+    order_column: ingested_at
+    columns:
+      - {name: name, clickhouse_type: String, nullable: false}
+      - {name: dt, clickhouse_type: DateTime64(3), nullable: false}
+      - {name: n_questions, clickhouse_type: Float64, nullable: true}
+      - {name: result, clickhouse_type: Float64, nullable: true}
+      - {name: ingested_at, clickhouse_type: DateTime64(3), nullable: false}
+
+  - entity: calltrafic1_techsup_schedule
+    primary_key: [date, employee]
+    order_column: ingested_at
+    columns:
+      - {name: date, clickhouse_type: Date, nullable: true}
+      - {name: employee, clickhouse_type: String, nullable: true}
+      - {name: hours, clickhouse_type: Float64, nullable: true}
+      - {name: ingested_at, clickhouse_type: DateTime64(3), nullable: false}
+
+  - entity: calltrafic_employees
+    primary_key: [email, full_name]
+    order_column: ingested_at
+    columns:
+      - {name: supervisor, clickhouse_type: String, nullable: true}
+      - {name: employment_status, clickhouse_type: String, nullable: true, semantic_type: employment_status}
+      - {name: group_name, clickhouse_type: String, nullable: true}
+      - {name: training_start_date, clickhouse_type: Date, nullable: true}
+      - {name: training_end_date, clickhouse_type: Date, nullable: true}
+      - {name: line_start_date, clickhouse_type: Date, nullable: true}
+      - {name: full_name, clickhouse_type: String, nullable: true}
+      - {name: email, clickhouse_type: String, nullable: true}
+      - {name: telegram_login, clickhouse_type: String, nullable: true}
+      - {name: mm_login, clickhouse_type: String, nullable: true}
+      - {name: phone, clickhouse_type: String, nullable: true}
+      - {name: birthday, clickhouse_type: Date, nullable: true}
+      - {name: dismissal_date, clickhouse_type: Date, nullable: true}
+      - {name: dismissal_reason, clickhouse_type: String, nullable: true}
+      - {name: ingested_at, clickhouse_type: DateTime64(3), nullable: false}
