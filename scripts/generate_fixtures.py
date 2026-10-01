@@ -34,10 +34,10 @@ MSK = timezone(timedelta(hours=3))
 def gen(
     n_tickets: int = 500,
     days: int = 14,
-    
+    ref_end: datetime | None = None,
 ) -> tuple[list[dict], list[dict]]:
     random.seed(42)
-    now = datetime.now(MSK)
+    now = ref_end or datetime.now(MSK)
     tickets: list[dict] = []
     sessions: list[dict] = []
     for i in range(n_tickets):
@@ -131,16 +131,32 @@ def ch_exec_script(script: str) -> None:
         ch_exec("\n".join(lines) + ";")
 
 
+def _parse_ref_end(s: str | None) -> datetime | None:
+    if not s:
+        return None
+    for fmt in ("%Y-%m-%d", "%Y-%m-%dT%H:%M:%S"):
+        try:
+            dt = datetime.strptime(s, fmt)
+            return dt.replace(tzinfo=MSK)
+        except ValueError:
+            continue
+    raise SystemExit(f"invalid --ref-date: {s!r} (use YYYY-MM-DD)")
+
 
 def main() -> int:
     import argparse
 
     ap = argparse.ArgumentParser(description="Synthetic Helpdesk + Bot demo fixtures")
     ap.add_argument("--tickets", type=int, default=500)
-    ap.add_argument("--days", type=int, default=14, help="lookback window in days")
+    ap.add_argument("--days", type=int, default=14, help="lookback window ending at ref-date")
+    ap.add_argument(
+        "--ref-date",
+        default=None,
+        help="end of demo window (MSK), default: now; e.g. 2026-09-30 for all of September",
+    )
     args = ap.parse_args()
-    
-    tickets, sessions = gen(n_tickets=args.tickets, days=args.days)
+    ref_end = _parse_ref_end(args.ref_date)
+    tickets, sessions = gen(n_tickets=args.tickets, days=args.days, ref_end=ref_end)
     sql = to_sql(tickets, sessions)
     OUT_SQL.parent.mkdir(parents=True, exist_ok=True)
     OUT_SQL.write_text(sql, encoding="utf-8")
