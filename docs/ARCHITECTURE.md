@@ -17,7 +17,7 @@ Portfolio demonstration of a production-style analytics platform:
 | `dbt/` | Transform project (models, macros, tests) |
 | `fixtures/` | Synthetic SQL + generated demo data |
 | `docker-compose.yml` | Local ClickHouse, MinIO, Postgres |
-| `scripts/` | Scrub, fixture generation, bootstrap |
+| `scripts/` | Fixture generation, bootstrap smoke |
 
 ## Domain databases
 
@@ -33,4 +33,4 @@ See [SCHEMAS.md](SCHEMAS.md). Helpdesk, Devices, and Bot are **separate** ClickH
 ## Local vs production
 
 Local demo focuses on **reproducible smoke**: CH databases + synthetic tickets/bot sessions.  
-Full Airflow→API extract is stubbed where live vendor APIs cannot ship under NDA; interfaces remain in `airflow/dwh/ingest/*`.
+Full Airflow→API extract is stubbed in the public demo where live vendor APIs are not bundled; interfaces remain in `airflow/dwh/ingest/*`.
