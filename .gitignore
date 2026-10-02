@@ -14,3 +14,8 @@ fixtures/bronze/**
 .DS_Store
 
 fixtures/sql/seed_demo_data.sql
+
+# local git history helpers (not part of the portfolio)
+scripts/bootstrap/backfill_history.ps1
+scripts/bootstrap/refresh_september.ps1
+scripts/bootstrap/rebuild_plausible_history.ps1
